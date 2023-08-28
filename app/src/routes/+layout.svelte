@@ -1,53 +1,20 @@
 <script>
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import GithubCorner from '$lib/components/GithubCorner.svelte';
 	import './styles.css';
+	import { base } from '$app/paths';
 </script>
 
 <div class="app">
+	<GithubCorner />
 	<Header />
 
-	<main>
+	<main
+		class="flex-1 flex flex-col p-4 w-full max-w-64 mx-auto box-border bg-gray-200 bg-cover bg-center bg-radial bg-blend-lighten min-h-screen m-0 bg-fixed"
+	>
 		<slot />
 	</main>
 
-
 	<Footer />
 </div>
-
-<style>
-	.app {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
-
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
-	}
-</style>

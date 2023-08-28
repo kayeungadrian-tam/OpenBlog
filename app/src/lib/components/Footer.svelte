@@ -1,60 +1,11 @@
-<footer class="footer">
-    <ul class="footer__links">
-        <li class="footer__links_item">
-        <a href="/" class="footer__links__item__link">Home</a>
-      </li>
-      <li class="footer__links_item">
-        <a href="/about" class="footer__links__item__link">About</a>
-      </li>
-      <li class="footer__links_item">
-        <a href="/rss.xml" class="footer__links__item__link">RSS Feed</a>
-      </li>
-      <li class="footer__links_item">
-        <span class="footer__copy-right">©{settingData.year} {settingData.author}</span>
-      </li>
-    </ul>
-  </footer>
-  
 <script>
-    import {settingData} from "$lib/config/settings";
-
+	import { settingData } from '$lib/config/settings';
 </script>
 
-  <style>
-    .footer {
-      height: 6rem;
-      display: flex;
-      justify-content: center;
-      flex-direction: row;
-    }
-  
-    .footer__links {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      list-style: none;
-    }
-  
-    .footer__links_item {
-      margin-left: 1rem;
-    }
-  
-    .footer__links_item:last-child {
-      margin-right: 1rem;
-    }
-  
-    .footer__links__item__link {
-      padding-bottom: 0.2rem;
-      color: var(--secondary-color);
-      text-decoration: none;
-    }
-  
-    .footer__links__item__link:hover {
-      border-bottom: 1.5px solid var(--secondary-color);
-    }
-  
-    .footer__copy-right {
-      color: var(--secondary-color);
-    }
-  </style>
-  
+<footer class="py-8 border-t border-white bg-white">
+	<div class="container mx-auto px-4">
+		<div class="flex flex-row justify-evenly">
+			<p class="text-gray-600 text-sm">© {settingData.year} {settingData.author}</p>
+		</div>
+	</div>
+</footer>
