@@ -1,7 +1,7 @@
 <script>
-	import Counter from '$lib/components/Counter.svelte';
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import AuthComponent from '$lib/common/Auth.svelte';
 
 	import { base } from '$app/paths';
 </script>
@@ -13,4 +13,5 @@
 
 <section>
 	<h1>This is a landing page</h1>
+	<AuthComponent />
 </section>

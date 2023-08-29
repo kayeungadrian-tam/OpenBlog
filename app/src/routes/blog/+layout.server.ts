@@ -1,8 +1,14 @@
 
-import { posts } from '$lib/posts/data';
-export function load() {
+
+import { supabase } from '../../lib/supabaseClient';
+
+export async function load() {
+
+    const { data } = await supabase.from("blog_posts").select();
+
+
     return {
-        summaries: posts.map((post) => ({
+        summaries: data.map((post) => ({
             slug: post.slug,
             title: post.title
         }))
