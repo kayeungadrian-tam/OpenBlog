@@ -12,7 +12,7 @@
 	{#if primary}
 		<button
 			on:click={func}
-			class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out flex items-center justify-center gap-1"
+			class="bg-purple-700 hover:bg-purple-900 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out flex items-center justify-center gap-1"
 		>
 			{#if icon}
 				<img src="https://img.icons8.com/color/48/000000/{icon}.png" class="w-6" alt={icon} />

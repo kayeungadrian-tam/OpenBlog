@@ -19,14 +19,17 @@
 	});
 </script>
 
-<header class="bg-white shadow-md p-2">
-	<div class="container mx-auto px-4 py-3">
+<header class="bg-white shadow-md p-3">
+	<div class="px-12">
 		<nav class="flex items-center justify-between">
-			<div class="text-xl font-semibold">
-				<a href="/blog">My Blogs</a>
+			<div class="text-xl font-semibold text-purple-700">
+				<a href="/">My Blogs</a>
 			</div>
-			<div>
-				{currentTimestamp.toLocaleString()}
+			<div class="flex gap-4">
+				<!-- {currentTimestamp.toLocaleString()} -->
+				<a href="/about" rel="external">About</a>
+				<a href="/login" rel="external">Sign In</a>
+				<a href="/register" rel="external">Sign Up</a>
 			</div>
 		</nav>
 	</div>

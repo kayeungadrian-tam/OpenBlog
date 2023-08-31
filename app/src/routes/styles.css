@@ -1,3 +1,23 @@
-/* @tailwind base; */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Set robotic font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Set style for h1 */
+h1 {
+    @apply text-4xl;
+    @apply font-bold;
+    @apply text-center;
+    @apply my-4;
+}
+
+/* Set style for h2 */
+h2 {
+    @apply text-2xl;
+    @apply font-bold;
+    @apply text-center;
+}
+
+/* Set primary text color */
