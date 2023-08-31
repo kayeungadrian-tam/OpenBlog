@@ -19,7 +19,7 @@
 	});
 </script>
 
-<header class="bg-white shadow-md p-3">
+<header class="bg-white shadow-md p-4">
 	<div class="px-12">
 		<nav class="flex items-center justify-between">
 			<div class="text-xl font-semibold text-purple-700">
