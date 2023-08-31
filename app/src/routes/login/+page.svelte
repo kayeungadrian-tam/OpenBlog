@@ -12,7 +12,7 @@
 					// access_type: 'offline',
 					prompt: 'consent'
 				},
-				redirectTo: `http://localhost:5173/about`
+				redirectTo: `http://main--ma-blogs.netlify.app/about`
 			}
 		});
 
