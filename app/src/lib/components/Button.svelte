@@ -5,12 +5,14 @@
 	export let func = () => {
 		console.log('clicked');
 	};
+	export let action = '';
 </script>
 
 <!-- Primary button -->
 <div class="p-2">
 	{#if primary}
 		<button
+			formaction={action}
 			on:click={func}
 			class="bg-purple-700 hover:bg-purple-900 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out flex items-center justify-center gap-1"
 		>
@@ -21,6 +23,7 @@
 		</button>
 	{:else}
 		<button
+			formaction={action}
 			on:click={func}
 			class="bg-white-400 hover:bg-gray-300 text-dark font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out flex items-center justify-center gap-1"
 		>
