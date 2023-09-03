@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { supabase } from '../supabaseClient';
 
 	let loading = false;
@@ -42,4 +42,4 @@
 			</div>
 		</form>
 	</div>
-</div>
+</div> -->

@@ -1,0 +1,15 @@
+<script>
+	export let title = '';
+	export let description = '';
+	export let imageUrl = '';
+</script>
+
+<div class="max-w-sm rounded overflow-hidden shadow-lg bg-white cursor-pointer">
+	<div class="px-6 py-4">
+		<div class="font-bold text-xl mb-2">{title}</div>
+		<p class="text-gray-700 text-base">
+			{description}
+		</p>
+	</div>
+	<div class="px-6 pt-4 pb-2" />
+</div>

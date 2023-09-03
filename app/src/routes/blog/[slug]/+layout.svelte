@@ -2,18 +2,18 @@
 	export let data;
 </script>
 
-<div class="layout">
-	<main>
+<div class="">
+	<main class="">
 		<slot />
 	</main>
 
-	<aside>
+	<aside class="mt-12">
 		<h2>More posts</h2>
 
 		<ul>
-			{#each data.summaries as { slug, title }}
+			{#each data.postList as { slug, title }}
 				<li>
-					<a href="/blog/{slug}" rel="external">{title}</a>
+					<a href="/blog/{slug}">{title}</a>
 				</li>
 			{/each}
 		</ul>

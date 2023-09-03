@@ -1,16 +1,18 @@
+// import { supabase } from '../../lib/supabaseClient';
+// import { error } from '@sveltejs/kit';
 
 
-import { supabase } from '../../lib/supabaseClient';
+// export async function load() {
+//     const apiData = await supabase.from("blog_posts").select();
+//     console.log(apiData);
+//     const { data, error } = apiData;
 
-export async function load() {
+//     if (!data) throw error(404);
 
-    const { data } = await supabase.from("blog_posts").select();
-
-
-    return {
-        summaries: data.map((post) => ({
-            slug: post.slug,
-            title: post.title
-        }))
-    };
-}
+//     return {
+//         postList: data?.map((post) => ({
+//             slug: post.slug,
+//             title: post.title
+//         }))
+//     };
+// }
