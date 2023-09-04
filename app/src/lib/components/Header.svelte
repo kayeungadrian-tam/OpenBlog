@@ -60,18 +60,20 @@
 
 			<div class="flex gap-4 align-middle items-center">
 				<a href="/blog" rel="self">Blogs</a>
-				<a
-					href="#"
-					class="block transition duration-300 ease-in-out hover:font-semibold hover:text-purple-700"
-				>
-					<div class="flex items-center gap-1">
-						<Icon src={PencilSquare} class="w-5" />
-						Write
-					</div>
-				</a>
+
 				{#if !session}
 					<a href="/login" rel="self">Sign In</a>
 				{:else}
+					<a
+						href="#"
+						class="block transition duration-300 ease-in-out hover:font-semibold hover:text-purple-700"
+					>
+						<div class="flex items-center gap-1">
+							<Icon src={PencilSquare} class="w-5" />
+							Write
+						</div>
+					</a>
+
 					<button
 						id="options-menu"
 						class="relative inline-block"
@@ -81,7 +83,11 @@
 						on:click={toggleDropdown}
 					>
 						<div class="flex items-center">
-							<img src={session.user.user_metadata.avatar_url} alt="avatar" class="h-12" />
+							<img
+								src={session.user.user_metadata.avatar_url}
+								alt="avatar"
+								class="h-12 rounded-full"
+							/>
 
 							<svg
 								class="-mr-1 ml-2 h-5 w-5"
@@ -109,6 +115,9 @@
 
 							 top-20 bg-white divide-y divide-gray-100 w-44 text-center"
 						>
+							<div class="text-sm text-gray-700 p-2 flex justify-center">
+								{session.user.user_metadata.full_name}
+							</div>
 							{#each dropDownItems as item}
 								{#each Object.keys(item) as section}
 									<ul class="text-sm text-gray-700">
@@ -130,11 +139,11 @@
 									</ul>
 								{/each}
 
-								<div class="text-sm text-gray-700 mt-6 p-2 flex justify-center">
+								<div class="text-sm text-gray-700 mt-6 p-2 w-full flex justify-center">
 									<form action="/logout" method="post">
 										<button
 											type="submit"
-											class="block transition duration-300 ease-in-out hover:font-semibold hover:text-purple-700"
+											class="block transition w-full duration-300 ease-in-out hover:font-semibold hover:text-purple-700"
 										>
 											Sign out
 										</button>
