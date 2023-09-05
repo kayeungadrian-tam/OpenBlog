@@ -59,13 +59,17 @@
 			</div>
 
 			<div class="flex gap-4 align-middle items-center">
-				<a href="/blog" rel="self">Blogs</a>
+				<a
+					href="/blog"
+					class="block transition duration-300 ease-in-out hover:font-semibold hover:text-purple-700"
+					rel="self">Blogs</a
+				>
 
 				{#if !session}
 					<a href="/login" rel="self">Sign In</a>
 				{:else}
 					<a
-						href="#"
+						href="/write"
 						class="block transition duration-300 ease-in-out hover:font-semibold hover:text-purple-700"
 					>
 						<div class="flex items-center gap-1">
@@ -112,7 +116,7 @@
 							absolute
 							shadow-2xl
 							rounded-lg p-1
-
+							right-10
 							 top-20 bg-white divide-y divide-gray-100 w-44 text-center"
 						>
 							<div class="text-sm text-gray-700 p-2 flex justify-center">

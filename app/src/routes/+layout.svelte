@@ -30,10 +30,6 @@
 	<GithubCorner />
 	<Header session={data.session} />
 
-	{Object.keys(data)}
-
-	{data.session}
-
 	<!-- <main class="flex-1 flex flex-col w-full mx-auto box-border min-h-screen m-0 bg-fixed"> -->
 	<main>
 		<slot />

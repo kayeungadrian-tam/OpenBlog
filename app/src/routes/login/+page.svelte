@@ -6,7 +6,7 @@
 	import type { PageData, SubmitFunction } from './$types.js';
 	import { redirect } from '@sveltejs/kit';
 
-	// export let form;
+	export let form;
 
 	export let data: PageData;
 
@@ -35,54 +35,20 @@
 		cancel();
 	};
 
-	// const { data: session } = supabase.auth.session();
-
-	// const googleLogin = async () => {
-	// 	const { data, error } = await supabase.auth.signInWithOAuth({
-	// 		provider: 'google',
-	// 		options: {
-	// 			queryParams: {
-	// 				access_type: 'offline',
-	// 				prompt: 'consent'
-	// 			},
-	// 			// redirectTo: `http://main--ma-blogs.netlify.app/about`
-	// 			// redirectTo: `http://localhost:5173/about`
-	// 			redirectTo: `${location.origin}/auth/callback`
-	// 		}
-	// 	});
-
-	// 	if (error) {
-	// 		console.log(error);
-	// 		return;
-	// 	}
-	// };
-
 	const test = () => {
 		console.log('test');
 	};
 </script>
 
-<div>
-	<h1>Login Here!</h1>
+<div class="flex mx-auto flex-col justify-start align-middle items-center h-screen">
+	<h1 class="text-2xl p-8 mb-8">Welcome back!</h1>
 
 	<!-- <form method="post" use:enhance={submitSocialLogin}> -->
 	<form method="post">
 		<!-- <button formaction="?/login&provider=google">Google</button> -->
-		<Button label="Google" icon="google-logo" action="?/login&provider=google" primary />
+		<Button label="Sing in with Google" icon="google-logo" action="?/login&provider=google" />
+		<Button label="Sing in with Github" icon="github" action="?/login&provider=google" />
+		<Button label="Sing in with Linkedin" icon="linkedin" action="?/login&provider=google" />
+		<Button label="Sing in with Slack" icon="slack-new" action="?/login&provider=google" />
 	</form>
-
-	<!-- A fancy login button -->
-	<!-- <Button label="Google" func={googleLogin} icon="google-logo" primary />
-	<Button label="Linkedin" func={test} icon="linkedin" />
-	<Button label="Facebook" func={test} icon="facebook-new" />
-	<Button label="Slack" func={test} icon="slack-new" />
-	<Button label="Primary" func={test} primary />
-	<Button label="Secondary" func={test} /> -->
-	<!-- <button on:click={googleLogin}>Login with Google</button> -->
 </div>
-<!-- 
-<form method="post" use:enhance>
-	<input name="email" value={form?.email ?? ''} />
-	<input type="password" name="password" />
-	<button>Sign up</button>
-</form> -->
