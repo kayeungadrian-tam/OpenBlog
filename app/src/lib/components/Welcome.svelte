@@ -1,5 +1,7 @@
 <script lang="ts">
 	export let title = 'Home';
+	export let description =
+		'Welcome to our Svelte app. This is a simple example of a welcome container.';
 </script>
 
 <div
@@ -10,5 +12,5 @@
 	<h1 class="text-3xl sm:text-4xl md:text-5xl text-white font-bold tracking-tight py-2">
 		{title}
 	</h1>
-	<p>Welcome to our Svelte app. This is a simple example of a welcome container.</p>
+	<p>{description}</p>
 </div>

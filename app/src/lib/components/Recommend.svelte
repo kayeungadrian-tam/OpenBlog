@@ -5,8 +5,8 @@
 	export let topStories;
 </script>
 
-<div>
-	<h1 class="text-center">For you</h1>
+<div class="text-center">
+	<h1 class="text-2xl font-semibold m-4">For you</h1>
 
 	{#each topStories as post}
 		<article>
