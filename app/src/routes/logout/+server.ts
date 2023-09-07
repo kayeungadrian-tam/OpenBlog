@@ -1,7 +1,7 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { error, redirect } from '@sveltejs/kit';
 
-export const POST: RequestHandler = async ({ locals }) => {
+export const GET: RequestHandler = async ({ locals }) => {
     const { error: authError } = await locals.supabase.auth.signOut();
 
     if (authError) {

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
+	import { Button } from 'carbon-components-svelte';
+	import LocationCurrent from 'carbon-icons-svelte/lib/LocationCurrent.svelte';
 
 	import type { PageData } from './$types';
 
@@ -67,9 +68,11 @@
 		/>
 
 		<!-- A simple button element for submitting the blog -->
-		<div class="p-8 flex flex-row">
-			<Button label="Save Draft" />
-			<Button label="Publish" action="?/addPost" primary />
+		<div class="flex gap-4">
+			<Button kind="tertiary">Save Draft</Button>
+			<Button icon={LocationCurrent}>Publish</Button>
 		</div>
+		<!-- <Button label="Save Draft" /> -->
+		<!-- <Button label="Publish" action="?/addPost" primary /> -->
 	</div>
 </form>

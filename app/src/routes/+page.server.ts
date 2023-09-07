@@ -1,9 +1,17 @@
-// export async function load({ }) {
+export async function load({ locals: { supabase } }) {
+    const apiData = await supabase.from("blog_posts").select();
+    const { data, error } = apiData;
 
-//     const postsDummy = await fetch('https://dummyjson.com/posts?limit=5&skip=3&select=title,reactions,userId')
-//     const dummy = await postsDummy.json()
+    const topPosts = await supabase.from("blog_posts").select().limit(5);
 
-//     return {
-//         dummy
-//     }
-// }
+    if (!data) throw error(404);
+
+    return {
+        postList: data?.map((post) => ({
+            slug: post.slug,
+            title: post.title,
+            content: post.content,
+        })),
+        topPosts: topPosts.data
+    };
+}

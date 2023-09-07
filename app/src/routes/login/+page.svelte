@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
+	import SocialButton from '$lib/components/Button.svelte';
 
 	import { enhance } from '$app/forms';
 	import type { Provider } from '@supabase/supabase-js';
@@ -46,9 +46,9 @@
 	<!-- <form method="post" use:enhance={submitSocialLogin}> -->
 	<form method="post">
 		<!-- <button formaction="?/login&provider=google">Google</button> -->
-		<Button label="Sing in with Google" icon="google-logo" action="?/login&provider=google" />
-		<Button label="Sing in with Github" icon="github" action="?/login&provider=google" />
-		<Button label="Sing in with Linkedin" icon="linkedin" action="?/login&provider=google" />
-		<Button label="Sing in with Slack" icon="slack-new" action="?/login&provider=google" />
+		<SocialButton label="Sing in with Google" icon="google-logo" action="?/login&provider=google" />
+		<SocialButton label="Sing in with Github" icon="github" action="?/login&provider=google" />
+		<SocialButton label="Sing in with Linkedin" icon="linkedin" action="?/login&provider=google" />
+		<SocialButton label="Sing in with Slack" icon="slack-new" action="?/login&provider=google" />
 	</form>
 </div>

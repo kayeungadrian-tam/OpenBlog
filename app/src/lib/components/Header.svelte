@@ -1,16 +1,24 @@
 <script>
-	// import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
+	import { OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte';
+	import CaretDown from 'carbon-icons-svelte/lib/CaretDown.svelte';
+	import UserAvatar from 'carbon-icons-svelte/lib/UserAvatar.svelte';
+	import Settings from 'carbon-icons-svelte/lib/Settings.svelte';
+	import Bookmark from 'carbon-icons-svelte/lib/Bookmark.svelte';
+	import Logout from 'carbon-icons-svelte/lib/Logout.svelte';
 
 	import { settingData } from '$lib/config/settings';
-
-	import Dropdown from '$lib/components/Dropdown.svelte';
-	import { Icon, Cog6Tooth, User, Bookmark, PencilSquare } from 'svelte-hero-icons';
+	import { Icon, PencilSquare } from 'svelte-hero-icons';
 
 	export let session = null;
 
 	let currentTimestamp = new Date();
 	let url = settingData.github;
+	/**
+	 * @type {HTMLButtonElement | null}
+	 */
+	let _buttonRef = null;
+	$: _buttonRef = null;
 
 	let isOpen = false;
 
@@ -27,28 +35,6 @@
 			clearInterval(interval);
 		};
 	});
-
-	const dropDownItems = [
-		{
-			section_1: [
-				{
-					label: 'Profile',
-					url: '/profile',
-					icon: User
-				},
-				{
-					label: 'Settings',
-					url: '/settings',
-					icon: Cog6Tooth
-				},
-				{
-					label: 'Bookmark',
-					url: '/bookmark',
-					icon: Bookmark
-				}
-			]
-		}
-	];
 </script>
 
 <header class="bg-white shadow-md p-4">
@@ -78,6 +64,47 @@
 						</div>
 					</a>
 
+					<OverflowMenu
+						icon={CaretDown}
+						style="width: auto"
+						class="bg-transparent"
+						data-sveltekit-noscroll
+						flipped
+					>
+						<!-- <div slot="menu" class="bg-transparent" /> -->
+						<div slot="menu">
+							<img
+								src={session.user.user_metadata.avatar_url}
+								alt="avatar"
+								class="h-12 rounded-full"
+							/>
+						</div>
+						<OverflowMenuItem text="Profile">
+							<span class="flex gap-4">
+								<UserAvatar />
+								Profile
+							</span>
+						</OverflowMenuItem>
+						<OverflowMenuItem>
+							<span class="flex gap-4">
+								<Settings />
+								Settings
+							</span>
+						</OverflowMenuItem>
+						<OverflowMenuItem>
+							<span class="flex gap-4">
+								<Bookmark />
+								Favorites
+							</span>
+						</OverflowMenuItem>
+						<OverflowMenuItem danger href="/logout" hasDivider>
+							<span class="flex gap-4">
+								<Logout />
+								Sign out
+							</span>
+						</OverflowMenuItem>
+					</OverflowMenu>
+
 					<button
 						id="options-menu"
 						class="relative inline-block"
@@ -85,31 +112,9 @@
 						aria-expanded="true"
 						data-dropdown-toggle="dropdown"
 						on:click={toggleDropdown}
-					>
-						<div class="flex items-center">
-							<img
-								src={session.user.user_metadata.avatar_url}
-								alt="avatar"
-								class="h-12 rounded-full"
-							/>
+					/>
 
-							<svg
-								class="-mr-1 ml-2 h-5 w-5"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									fill-rule="evenodd"
-									d="M7.293 6.293a1 1 0 011.414 0L10 7.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414 1 1 0 011.414 0z"
-									clip-rule="evenodd"
-								/>
-							</svg>
-						</div>
-					</button>
-
-					{#if isOpen}
+					{#if false}
 						<div
 							id="dropdown"
 							class="z-10

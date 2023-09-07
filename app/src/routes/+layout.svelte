@@ -3,6 +3,8 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import GithubCorner from '$lib/components/GithubCorner.svelte';
 	import './styles.css';
+	import 'carbon-components-svelte/css/white.css';
+
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { invalidateAll } from '$app/navigation';

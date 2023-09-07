@@ -8,7 +8,7 @@
 </script>
 
 <div
-	class=" rounded shadow-sm border border-purple-100 bg-white cursor-pointer m-4 hover:border-purple-300 duration-200 ease-in-out hover:shadow-purple-300"
+	class=" rounded shadow-sm border border-purple-100 bg-white cursor-pointer m-4 hover:border-blue-300 duration-200 ease-in-out hover:shadow-blue-600"
 >
 	<div class="px-6 py-4 gap-5 flex flex-col justify-evenly align-middle h-full">
 		<div class="font-bold text-xl mb-2">{title}</div>
