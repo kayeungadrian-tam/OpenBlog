@@ -1,10 +1,11 @@
 <script>
 	export let data;
-	$: post_data = data.data[0];
+	// $: post_data = data.data[0];
 	import Welcome from '$lib/components/Welcome.svelte';
 
 	import SvelteMarkdown from 'svelte-markdown';
 	import { CodeSnippet } from 'carbon-components-svelte';
+	import { Loading } from 'carbon-components-svelte';
 
 	const source = `
   # Header1
@@ -82,15 +83,18 @@
 </script>
 
 <div>
-	<Welcome title={post_data.title} />
+	{#await data.loader.dataPromise}
+		<Loading />
+	{:then value}
+		<Welcome title={value.data[0].title} />
+		<div class="max-w-6xl mx-auto px-4">
+			<h1>{value.data[0].title}</h1>
+			<p>{value.data[0].content}</p>
 
-	<div class="max-w-6xl mx-auto px-4">
-		<h1>{post_data.title}</h1>
-		<p>{post_data.content}</p>
+			<SvelteMarkdown {source} />
+			<CodeSnippet code="yarn add " />
 
-		<SvelteMarkdown {source} />
-		<CodeSnippet code="yarn add " />
-
-		{@html htmlTemplate}
-	</div>
+			{@html htmlTemplate}
+		</div>
+	{/await}
 </div>
