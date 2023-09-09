@@ -3,29 +3,19 @@
 </script>
 
 <div class="">
-	<main class="">
+	<main>
 		<slot />
 	</main>
 
-	<aside class="mt-12">
-		<h2>More posts</h2>
+	<aside class="flex items-center flex-col mt-12">
+		<h2>You may also like...</h2>
 
 		<ul>
 			{#each data.postList as { slug, title }}
-				<li>
+				<li class="my-2">
 					<a href="/blog/{slug}">{title}</a>
 				</li>
 			{/each}
 		</ul>
 	</aside>
 </div>
-
-<style>
-	@media (min-width: 640px) {
-		.layout {
-			display: grid;
-			gap: 2em;
-			grid-template-columns: 1fr 16em;
-		}
-	}
-</style>

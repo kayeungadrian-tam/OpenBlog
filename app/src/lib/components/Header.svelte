@@ -1,11 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
+
 	import { OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte';
 	import CaretDown from 'carbon-icons-svelte/lib/CaretDown.svelte';
 	import UserAvatar from 'carbon-icons-svelte/lib/UserAvatar.svelte';
 	import Settings from 'carbon-icons-svelte/lib/Settings.svelte';
 	import Bookmark from 'carbon-icons-svelte/lib/Bookmark.svelte';
 	import Logout from 'carbon-icons-svelte/lib/Logout.svelte';
+	import { Search } from 'carbon-components-svelte';
 
 	import { settingData } from '$lib/config/settings';
 	import { Icon, PencilSquare } from 'svelte-hero-icons';
@@ -37,19 +39,18 @@
 	});
 </script>
 
-<header class="bg-white shadow-md p-4">
+<header class=" shadow-md p-4">
 	<div class="mx-auto px-10">
 		<nav class="flex items-center justify-between">
-			<div class="text-xl font-semibold text-purple-700">
-				<a href="/">My Blogs</a>
+			<div class="text-xl font-semibold flex flex-row items-center">
+				<a href="/" class="w-full">OpenBlog</a>
+				<span class="min-w-[20rem] mx-4">
+					<Search />
+				</span>
 			</div>
 
 			<div class="flex gap-4 align-middle items-center">
-				<a
-					href="/blog"
-					class="block transition duration-300 ease-in-out hover:font-semibold hover:text-purple-700"
-					rel="self">Blogs</a
-				>
+
 
 				{#if !session}
 					<a href="/login" rel="self">Sign In</a>
@@ -79,13 +80,16 @@
 								class="h-12 rounded-full"
 							/>
 						</div>
-						<OverflowMenuItem text="Profile">
+
+						<OverflowMenuItem text={session.user.user_metadata.full_name} />
+
+						<OverflowMenuItem hasDivider text="Profile">
 							<span class="flex gap-4">
 								<UserAvatar />
 								Profile
 							</span>
 						</OverflowMenuItem>
-						<OverflowMenuItem>
+						<OverflowMenuItem href="/setting">
 							<span class="flex gap-4">
 								<Settings />
 								Settings
