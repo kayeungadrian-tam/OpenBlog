@@ -2,8 +2,33 @@
 	import Welcome from '$lib/components/Welcome.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import Recommend from '$lib/components/Recommend.svelte';
+	import { Pagination } from 'carbon-components-svelte';
 
 	export let data;
+
+	const postsPerPage = 5;
+	let currentPage = 1;
+	let totalPages = Math.ceil(data.postList.length / postsPerPage);
+
+	let currentPosts = [];
+
+	function updatePosts() {
+		const startIndex = (currentPage - 1) * postsPerPage;
+		const endIndex = startIndex + postsPerPage;
+		currentPosts = data.postList.slice(startIndex, endIndex);
+	}
+
+	/**
+	 * @param {{ detail: { page: number; }; }} event
+	 */
+	function goToPage(event) {
+		currentPage = event.detail.page;
+		updatePosts();
+	}
+
+	$: totalPages = Math.ceil(data.postList.length / postsPerPage);
+
+	$: updatePosts();
 </script>
 
 <div>
@@ -20,6 +45,7 @@
 				{/each}
 			</ul>
 		</div>
+
 		<Recommend topStories={data.topPosts} />
 	</div>
 </div>

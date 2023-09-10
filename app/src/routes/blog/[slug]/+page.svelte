@@ -6,6 +6,7 @@
 	import SvelteMarkdown from 'svelte-markdown';
 	import { CodeSnippet } from 'carbon-components-svelte';
 	import { Loading } from 'carbon-components-svelte';
+	import { SkeletonText } from 'carbon-components-svelte';
 
 	const source = `
   # Header1

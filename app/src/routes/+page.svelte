@@ -6,10 +6,13 @@
 
 	import { Tabs, Tab, TabContent } from 'carbon-components-svelte';
 	import { ClickableTile } from 'carbon-components-svelte';
+	import { Pagination } from 'carbon-components-svelte';
 
 	export let data;
 
 	// const posts = data.dummy.posts;
+	const postsPerPage = 5;
+	let currentPage = 1;
 
 	let items = [
 		{
@@ -23,6 +26,31 @@
 			component: About
 		}
 	];
+
+	let totalPages = Math.ceil(data.postList.length / postsPerPage);
+
+	/**
+	 * @type {any[]}
+	 */
+	let currentPosts = [];
+
+	function updatePosts() {
+		const startIndex = (currentPage - 1) * postsPerPage;
+		const endIndex = startIndex + postsPerPage;
+		currentPosts = data.postList.slice(startIndex, endIndex);
+	}
+
+	/**
+	 * @param {any} event
+	 */
+	function goToPage(event) {
+		// console.log(totalPages);
+		currentPage = event.detail.page;
+		updatePosts();
+	}
+
+	$: totalPages = Math.ceil(data.postList.length / postsPerPage);
+	$: updatePosts();
 </script>
 
 <svelte:head>
@@ -51,7 +79,7 @@
 				<svelte:fragment slot="content">
 					<TabContent>
 						<div class="">
-							{#each data.postList as { slug, title, content }, i}
+							{#each currentPosts as { slug, title, content }, i}
 								<!-- <li>
 										<a href="/blog/{slug}">
 											<Card {title} author="Adrian Tam" {content} />
@@ -75,6 +103,13 @@
 					<TabContent>Content 2</TabContent>
 				</svelte:fragment>
 			</Tabs>
+			<Pagination
+				page={currentPage}
+				on:click:button--next={goToPage}
+				on:click:button--previous={goToPage}
+				pageSize={postsPerPage}
+				totalItems={10}
+			/>
 		</div>
 
 		<Recommend topStories={data.topPosts} />

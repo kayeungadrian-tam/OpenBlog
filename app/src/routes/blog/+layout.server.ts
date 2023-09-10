@@ -6,7 +6,7 @@ export async function load({ locals: { supabase } }) {
     const apiData = await supabase.from("blog_posts").select();
     const { data, error } = apiData;
 
-    const topPosts = await supabase.from("blog_posts").select().limit(5);
+    const topPosts = await supabase.from("blog_posts").select().limit(3);
 
     if (!data) throw error(404);
 
