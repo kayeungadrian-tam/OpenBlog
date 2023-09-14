@@ -7,6 +7,7 @@
 	import { Tabs, Tab, TabContent } from 'carbon-components-svelte';
 	import { ClickableTile } from 'carbon-components-svelte';
 	import { Pagination } from 'carbon-components-svelte';
+	import { Tag } from 'carbon-components-svelte';
 
 	export let data;
 
@@ -96,6 +97,9 @@
 										</div>
 										<div class="italic text-gray-500 mt-4">@Author</div>
 									</div>
+									<Tag type="teal">Tag</Tag>
+									<Tag type="purple">purple</Tag>
+									<Tag type="red">red</Tag>
 								</ClickableTile>
 							{/each}
 						</div>

@@ -4,6 +4,8 @@
 
 	import { ToastNotification } from 'carbon-components-svelte';
 	import { Button } from 'carbon-components-svelte';
+	import { MultiSelect } from 'carbon-components-svelte';
+	import { Tag } from 'carbon-components-svelte';
 
 	import LocationCurrent from 'carbon-icons-svelte/lib/LocationCurrent.svelte';
 	import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
@@ -60,12 +62,29 @@
 		console.log('test');
 		showToast = !showToast;
 	}
+
+	const items = [
+		{ id: '0', text: 'Slack', color: 'gray' },
+		{ id: '1', text: 'Email', color: 'gray' },
+		{ id: '2', text: 'Fax', color: 'gray' }
+	];
+	let multiselect1_selectedIds: never[] = [];
+
+	const formatSelected = (i) =>
+		i.length === 0
+			? []
+			: i.map((id) => {
+					const item = items.find((item) => item.id === id);
+					return { text: item?.text, color: item?.color };
+			  });
+
+	$: primary = formatSelected(multiselect1_selectedIds);
 </script>
 
 <!-- A simple input element for blog title -->
 <form method="POST">
 	<div class="flex flex-col items-center w-screen mx-auto">
-		<div class="text-3xl p-8 w-full">
+		<div class="text-3xl px-8 py-4 w-full">
 			<label for="title">Title</label>
 			<TextInput
 				name="title"
@@ -76,7 +95,37 @@
 			/>
 		</div>
 
-		<div class="text-3xl p-8 w-full">
+		<div class=" px-8 py-4 w-full">
+			<span class="text-3xl"> Tags</span>
+			<div class="my-2">
+				<MultiSelect
+					warn={primary.length === 0}
+					filterable
+					hideLabel
+					warnText="One or more tags are not associated with your posts!"
+					spellcheck="true"
+					titleText="Select tags"
+					placeholder="Filter contact methods..."
+					bind:selectedIds={multiselect1_selectedIds}
+					itemToInput={(item) => ({ name: item.text, labelText: item.text, title: item.text })}
+					useTitleInItem
+					{items}
+				/>
+			</div>
+
+			<!-- Show selected items as tags -->
+			<div>
+				{#if primary.length > 0}
+					{#each primary as item}
+						<Tag type={item.color} size="sm" on:click={() => {}}>
+							{item.text}
+						</Tag>
+					{/each}
+				{/if}
+			</div>
+		</div>
+
+		<div class="text-3xl px-8 py-4 w-full">
 			<label for="content">Content</label>
 			<TextArea name="content" labelText="" bind:value={content} placeholder="Enter user name..." />
 		</div>
@@ -111,4 +160,6 @@
 			/>
 		</div>
 	{/if}
+
+	<div>Primary: {primary}</div>
 </form>
