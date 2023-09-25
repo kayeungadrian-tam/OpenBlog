@@ -17,10 +17,6 @@ export default {
 			themes: {
 				preset: [
 					{
-						name: 'skeleton',
-						enhancements: true,
-					},
-					{
 						name: 'gold-nouveau',
 						enhancements: true,
 					},
