@@ -42,7 +42,7 @@
 	// A function that redacts the user's email address
 	const redactEmail = (email: string) => {
 		const [name, domain] = email.split('@');
-		const redactedName = name.slice(0, 3) + '****' + name.slice(-2);
+		const redactedName = name.slice(0, 3) + '****';
 		return `${redactedName}@${domain}`;
 	};
 </script>
@@ -68,7 +68,7 @@
 			</a>
 			<button use:popup={popupFeatured}>
 				<Avatar
-					border="border-4 border-surface-300-600-token hover:!border-primary-500"
+					border="border-4 border-surface-300-600-token hover:!border-primary-500 w-9"
 					initials={userData?.full_name}
 					cursor="cursor-pointer"
 					src={userData?.avatar_url}
@@ -96,7 +96,7 @@
 						<Icon icon="octicon:sign-out-16" />
 						<span>Logout</span>
 					</div>
-					<span class="text-tertiary-500 italic opacity-50">
+					<span class="text-tertiary-500 italic opacity-50 text-sm">
 						{redactEmail(userData?.email)}
 					</span>
 
