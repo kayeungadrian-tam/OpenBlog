@@ -41,6 +41,6 @@
 	<slot />
 
 	<svelte:fragment slot="footer">
-		<div class="bg-primary-300 text-secondary-500">Footer</div>
+		<!-- <div class="bg-primary-300 text-secondary-500">Footer</div> -->
 	</svelte:fragment>
 </AppShell>

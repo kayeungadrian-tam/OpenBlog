@@ -45,9 +45,17 @@
 		const redactedName = name.slice(0, 3) + '****';
 		return `${redactedName}@${domain}`;
 	};
+
+	let test_el = null;
+
+	let appBar: HTMLDivElement;
+
+	const scrollY = () => {
+		console.log(appBar.scrollTop);
+	};
 </script>
 
-<AppBar>
+<AppBar bind:this={appBar} on:scrollY={scrollY}>
 	<svelte:fragment slot="lead">
 		<a href="/">
 			<strong class="text-xl uppercase">{testSetting.siteLogo}</strong>
@@ -60,7 +68,7 @@
 		{#if !session}
 			<a href="/login" class="btn variant-filled rounded-full" on:click={() => {}}>Get Started</a>
 		{:else}
-			<a href="/write" rel="self">
+			<a href="/posts/write" rel="self">
 				<div class="flex items-center gap-2">
 					<Icon icon="octicon:pencil-16" />
 					Write
@@ -104,7 +112,5 @@
 				</div>
 			</div>
 		{/if}
-
-		<LightSwitch />
 	</svelte:fragment>
 </AppBar>

@@ -1,11 +1,27 @@
+<script lang="ts">
+	export let data;
+
+	const posts = data.posts;
+	let y;
+	$: y;
+</script>
+
 <svelte:head>
 	<title>Home</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
+<svelte:window bind:scrollY={y} />
 
 <div class="container h-full mx-auto flex justify-center items-center">
 	<div class="space-y-10 text-center flex flex-col items-center">
 		<h2 class="h2">Welcome to Skeleton.</h2>
+		{#each posts as { slug, title, content, author, published_at }, i}
+			<div class="card variant-glass-surface">
+				<header class="card-header text-2xl">{title}</header>
+				<section class="p-4" />
+				<footer class="card-footer">{published_at}</footer>
+			</div>
+		{/each}
 		<!-- Animated Logo -->
 		<figure>
 			<section class="img-bg" />
@@ -21,6 +37,8 @@
 				Launch Documentation
 			</a>
 		</div>
+		{y}
+
 		<div class="space-y-2">
 			<p>Try editing the following:</p>
 			<p><code class="code">/src/routes/+layout.svelte</code></p>
@@ -32,6 +50,8 @@
 		>
 	</div>
 </div>
+
+<div class="bg-primary-300 text-secondary-500">Footer</div>
 
 <style lang="postcss">
 	figure {
