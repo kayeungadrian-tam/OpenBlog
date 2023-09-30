@@ -1,5 +1,7 @@
 <script lang="ts">
 	import '../app.postcss';
+
+	import type { ComponentEvents } from 'svelte';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
@@ -11,15 +13,17 @@
 	import { onMount } from 'svelte';
 	import { invalidateAll } from '$app/navigation';
 	export let data;
+
 	let { supabase, session } = data;
 	$: ({ supabase, session } = data);
+
+	let y = 0;
 
 	onMount(() => {
 		const {
 			data: { subscription }
 		} = supabase.auth.onAuthStateChange((event, _session) => {
 			if (_session?.expires_at !== session?.expires_at) {
-				// invalidate('supabase:auth');
 				invalidateAll();
 			}
 		});
@@ -27,20 +31,44 @@
 		return () => subscription.unsubscribe();
 	});
 	initializeStores();
+
+	function scrollHandler(event: ComponentEvents<AppShell>['scroll']) {
+		y = event.currentTarget.scrollTop;
+	}
 </script>
 
 <Modal />
-
 <!-- App Shell -->
-<AppShell>
+<AppShell on:scroll={scrollHandler}>
 	<svelte:fragment slot="header">
-		<!-- App Bar -->
-		<AppBar session={data.session} />
+		{#if y < 150}
+			<span class="ease-in-out duration-100 animate fade-in">
+				<AppBar session={data.session} />
+			</span>
+		{/if}
 	</svelte:fragment>
 	<!-- Page Route Content -->
-	<slot />
+	<main>
+		<slot />
+	</main>
 
 	<svelte:fragment slot="footer">
 		<!-- <div class="bg-primary-300 text-secondary-500">Footer</div> -->
 	</svelte:fragment>
 </AppShell>
+
+<style>
+	.fade-in {
+		animation: fade-in 0.5s ease-in-out forwards;
+	}
+
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+
+		to {
+			opacity: 1;
+		}
+	}
+</style>

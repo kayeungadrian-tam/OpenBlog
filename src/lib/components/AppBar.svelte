@@ -1,16 +1,16 @@
 <script lang="ts">
+	import type { Session } from '@supabase/supabase-js';
 	import { onMount } from 'svelte';
 
 	import { AppBar, getModalStore, popup } from '@skeletonlabs/skeleton';
 	import { Avatar } from '@skeletonlabs/skeleton';
-	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import type { ModalSettings, PopupSettings } from '@skeletonlabs/skeleton';
 
 	import Icon from '@iconify/svelte';
 
 	import testSetting from '$lib/configs/textSetting.json';
 
-	export let session: null = null;
+	export let session: Session | null;
 
 	const userData =
 		session && (session as { user: { user_metadata: any } } | null)?.user?.user_metadata;
@@ -87,7 +87,7 @@
 			</button>
 			<div data-popup="popupFeatured">
 				<div class="flex flex-col items-center align-middle card p-4 shadow-xl gap-2">
-					<a href="/profile" class="flex items-center gap-2 px-2 w-full">
+					<a href="/profiles/yomamabanana" class="flex items-center gap-2 px-2 w-full">
 						<Icon icon="octicon:person-16" />
 						<span>Profile</span>
 					</a>

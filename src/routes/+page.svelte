@@ -2,15 +2,12 @@
 	export let data;
 
 	const posts = data.posts;
-	let y;
-	$: y;
 </script>
 
 <svelte:head>
 	<title>Home</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
-<svelte:window bind:scrollY={y} />
 
 <div class="container h-full mx-auto flex justify-center items-center">
 	<div class="space-y-10 text-center flex flex-col items-center">
@@ -37,7 +34,6 @@
 				Launch Documentation
 			</a>
 		</div>
-		{y}
 
 		<div class="space-y-2">
 			<p>Try editing the following:</p>
