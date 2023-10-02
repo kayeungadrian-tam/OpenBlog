@@ -4,16 +4,31 @@
 	export let data;
 
 	let { display_name, email, avatar_url } = data.profile;
+	const followings = data.following;
 </script>
 
 <div class="mx-16 my-4">
 	<AppShell
-		slotSidebarRight="w-1/3 border-1 border border-tertiary-500 p-6 flex align-middle justify-center  items-center gap-4"
+		slotSidebarRight="w-1/3 border-1 border border-tertiary-500 p-6 min-h-[calc(100vh-120px)]"
 		regionPage="px-6"
 	>
 		<svelte:fragment slot="sidebarRight">
-			<Avatar src={avatar_url} />
-			<p>{email}</p>
+			<div class="flex flex-col justify-center align-middle items-start space-y-4">
+				<Avatar src={avatar_url} width="w-28" />
+				<p>{email}</p>
+				<a class="text-primary-700" href="">update photo</a>
+			</div>
+			<div class="my-12">
+				<h3 class="h3">Following</h3>
+				{#each followings as { id, age, image, email }, i}
+					<a href="/">
+						<div class="text-sm text-tertiary-500 my-4 flex align-middle items-center gap-2">
+							<Avatar src={image} width="w-6" />
+							{email}
+						</div>
+					</a>
+				{/each}
+			</div>
 		</svelte:fragment>
 		<svelte:fragment slot="pageHeader">
 			<h1 class="h1">{display_name}</h1>

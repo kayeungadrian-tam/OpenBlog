@@ -41,8 +41,8 @@
 <!-- App Shell -->
 <AppShell on:scroll={scrollHandler}>
 	<svelte:fragment slot="header">
-		{#if y < 150}
-			<span class="ease-in-out duration-100 animate fade-in">
+		{#if y < 100}
+			<span class="ease-in-out duration-50 animate fade-in">
 				<AppBar session={data.session} />
 			</span>
 		{/if}
@@ -59,7 +59,7 @@
 
 <style>
 	.fade-in {
-		animation: fade-in 0.5s ease-in-out forwards;
+		animation: fade-in 0.2s ease-in-out forwards;
 	}
 
 	@keyframes fade-in {
