@@ -14,7 +14,9 @@
 		<h2 class="h2">Welcome to Skeleton.</h2>
 		{#each posts as { slug, title, content, author, published_at }, i}
 			<div class="card variant-glass-surface">
-				<header class="card-header text-2xl">{title}</header>
+				<a href="/posts/{slug}">
+					<header class="card-header text-2xl">{title}</header>
+				</a>
 				<section class="p-4" />
 				<footer class="card-footer">{published_at}</footer>
 			</div>

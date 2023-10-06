@@ -42,7 +42,11 @@
 <AppShell on:scroll={scrollHandler}>
 	<svelte:fragment slot="header">
 		{#if y < 100}
-			<span class="ease-in-out duration-50 animate fade-in">
+			<span class="opacity-1 duration-300 ease-in-out animate fade-in">
+				<AppBar session={data.session} />
+			</span>
+		{:else}
+			<span class="opacity-0">
 				<AppBar session={data.session} />
 			</span>
 		{/if}
