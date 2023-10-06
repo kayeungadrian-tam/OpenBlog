@@ -2,8 +2,7 @@
 	import type { Session } from '@supabase/supabase-js';
 	import { onMount } from 'svelte';
 
-	import { AppBar, getModalStore, popup } from '@skeletonlabs/skeleton';
-	import { Avatar } from '@skeletonlabs/skeleton';
+	import { AppBar, getModalStore, popup, Avatar } from '@skeletonlabs/skeleton';
 	import type { ModalSettings, PopupSettings } from '@skeletonlabs/skeleton';
 
 	import Icon from '@iconify/svelte';
@@ -16,7 +15,7 @@
 		session && (session as { user: { user_metadata: any } } | null)?.user?.user_metadata;
 
 	onMount(() => {
-		console.log('session', session);
+		console.table('session', session);
 	});
 
 	const popupFeatured: PopupSettings = {
@@ -78,8 +77,11 @@
 				/>
 			</button>
 			<div data-popup="popupFeatured">
-				<div class="flex flex-col items-center align-middle card p-4 shadow-xl gap-2">
-					<a href="/profiles/yomamabanana" class="flex items-center gap-2 px-2 w-full">
+				<div
+					class="flex flex-col items-center align-middle card p-4 shadow-xl gap-2"
+					data-sveltekit-reload
+				>
+					<a href="/profiles/{session.user?.id}" class="flex items-center gap-2 px-2 w-full">
 						<Icon icon="octicon:person-16" />
 						<span>Profile</span>
 					</a>
@@ -92,13 +94,15 @@
 					<!-- Divider -->
 					<div class="w-full h-px bg-surface-100-800-token py-2"><hr /></div>
 
-					<div class="flex items-center gap-2 px-2 w-full">
-						<Icon icon="octicon:sign-out-16" />
-						<span>Logout</span>
-					</div>
-					<span class="text-tertiary-500 italic opacity-50 text-sm">
-						{redactEmail(userData?.email)}
-					</span>
+					<a href="/api/logout">
+						<div class="flex items-center gap-2 px-2 w-full">
+							<Icon icon="octicon:sign-out-16" />
+							<span>Logout</span>
+						</div>
+						<span class="text-tertiary-500 italic opacity-50 text-sm">
+							{redactEmail(userData?.email)}
+						</span>
+					</a>
 
 					<div class="arrow bg-surface-100-800-token" />
 				</div>

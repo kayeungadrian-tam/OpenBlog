@@ -11,9 +11,9 @@ export const load = async ({ params, fetch, locals: { supabase } }) => {
     const _followiingPromise = await fetch('https://dummyjson.com/users?limit=5');
     const _following = await _followiingPromise.json();
 
-    console.log(_following)
+    console.log(params)
 
-    let { data: userProfile, error } = await supabase.from("profiles").select().eq("id", userId).single();
+    let { data: userProfile, error } = await supabase.from("profiles").select().eq("id", params.slug).single();
 
     console.log(userProfile);
 

@@ -16,12 +16,12 @@
 			<div class="flex flex-col justify-center align-middle items-start space-y-4">
 				<Avatar src={avatar_url} width="w-28" />
 				<p>{email}</p>
-				<a class="text-primary-700" href="">update photo</a>
+				<a class="text-primary-700" href="/">update photo</a>
 			</div>
-			<div class="my-12">
+			<div class="my-12" data-sveltekit-reload>
 				<h3 class="h3">Following</h3>
 				{#each followings as { id, age, image, email }, i}
-					<a href="/">
+					<a href="/profiles/24b2d0de-d683-43de-bcc4-8d8988f77558">
 						<div class="text-sm text-tertiary-500 my-4 flex align-middle items-center gap-2">
 							<Avatar src={image} width="w-6" />
 							{email}
