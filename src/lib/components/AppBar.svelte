@@ -46,7 +46,7 @@
 	};
 </script>
 
-<AppBar class="px-8">
+<AppBar class="px-24">
 	<svelte:fragment slot="lead">
 		<a href="/">
 			<strong class="text-xl uppercase">{testSetting.siteLogo}</strong>

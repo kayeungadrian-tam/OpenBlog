@@ -1,11 +1,14 @@
-<script>
+<script lang="ts">
 	import { Avatar } from '@skeletonlabs/skeleton';
+	import Icon from '@iconify/svelte';
+
+	import PostContent from '$lib/components/PostContent.svelte';
 
 	export let data;
 
+	const { display_name, avatar_url } = data.author_meta;
 	const title = data.post.data[0].title;
-
-	const jsObj = data.post.data[0].json_content;
+	const { json_content, description } = data.post.data[0];
 
 	async function doPost() {
 		console.log('POSTING IT!');
@@ -33,34 +36,42 @@
 			})
 		});
 		const data = await res.json();
-		console.log(data);
 	}
 </script>
 
 <div class="container h-full mx-auto flex items-center justify-center">
-	<div class="space-y-8 text-left flex flex-col items-center py-8 max-w-2xl">
+	<div class="space-y-8 text-left flex flex-col items-center py-8 max-w-3xl">
 		<h1 class="h1">{title}</h1>
-		<p class="">
-			Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquam harum eum fugiat at
-			similique. Impedit animi cupiditate nihil maiores quis odio quaerat. Dicta assumenda beatae
-			neque quos aliquam totam aliquid.
-		</p>
+		<h3 class="h3 text-tertiary-400">
+			{description}
+		</h3>
 		<div class="flex items-center gap-8 justify-start w-full">
-			<Avatar src="https://avatars.githubusercontent.com/u/1024025?v=4" width="w-12" class="my-4" />
+			<Avatar src={avatar_url || display_name} width="w-12" class="my-4" />
 			<div>
-				<p>name</p>
+				<p>{display_name}</p>
 				<p>Published on Apr 15</p>
 			</div>
 		</div>
-		<div class="border-x-0 border-y-2 border-y-secondary-400 w-full py-4">
-			<div>Interactive icon</div>
-			<!-- {@html data.post.data[0].content} -->
-		</div>
-		<button type="button" on:click={doPost}> Post it. </button>
-		{#each jsObj.contents as { type, content }, i}
-			<div>
-				{i}, {type}, {content}
+		<div class="w-full py-0">
+			<div class="logo-cloud gap-1 h-14 flex">
+				<a class="logo-item" href="/">
+					<Icon icon="octicon:heart-fill-16" color="red" width="20" />
+					<span>Like</span>
+				</a>
+				<a class="logo-item" href="/">
+					<span>(icon)</span>
+					<span>Skeleton</span>
+				</a>
+				<a class="logo-item" href="/">
+					<span>(icon)</span>
+					<span>Skeleton</span>
+				</a>
 			</div>
-		{/each}
+
+			<div />
+		</div>
+
+		<PostContent contents={json_content.contents} />
+		<button type="button" class="btn variant-ghost-tertiary" on:click={doPost}> Post it. </button>
 	</div>
 </div>

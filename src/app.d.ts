@@ -17,6 +17,8 @@ declare global {
 		interface PageData {
 			session: Session | null
 		}
+
+
 		// interface PageData {}
 		// interface Platform {}
 	}
