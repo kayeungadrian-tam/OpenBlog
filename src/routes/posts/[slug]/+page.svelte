@@ -3,6 +3,7 @@
 	import Icon from '@iconify/svelte';
 
 	import PostContent from '$lib/components/PostContent.svelte';
+	import { enhance } from '$app/forms';
 
 	export let data;
 
@@ -10,33 +11,18 @@
 	const title = data.post.data[0].title;
 	const { json_content, description } = data.post.data[0];
 
-	async function doPost() {
-		console.log('POSTING IT!');
-		const res = await fetch('/api/posts', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				title: 'Sample Title',
-				content: [
-					{
-						type: 'header',
-						value: 'This is a header'
-					},
-					{
-						type: 'paragraph',
-						value: 'This is a paragraph'
-					},
-					{
-						type: 'image',
-						value: 'https://avatars.githubusercontent.com/u/1024025?v=4'
-					}
-				]
-			})
-		});
-		const data = await res.json();
-	}
+	const viewCount = data.view;
+	const score = data.score;
+
+	const likeClassMap = [
+		'btn variant-surface-tertiary',
+		'btn variant-soft-success',
+		'btn variant-soft-error'
+	];
+
+	let buttonStyle = likeClassMap[score];
+
+	$: buttonStyle;
 </script>
 
 <div class="container h-full mx-auto flex items-center justify-center">
@@ -52,26 +38,37 @@
 				<p>Published on Apr 15</p>
 			</div>
 		</div>
-		<div class="w-full py-0">
-			<div class="logo-cloud gap-1 h-14 flex">
-				<a class="logo-item" href="/">
-					<Icon icon="octicon:heart-fill-16" color="red" width="20" />
-					<span>Like</span>
-				</a>
-				<a class="logo-item" href="/">
-					<span>(icon)</span>
-					<span>Skeleton</span>
-				</a>
-				<a class="logo-item" href="/">
-					<span>(icon)</span>
-					<span>Skeleton</span>
-				</a>
-			</div>
 
-			<div />
+		<div class="w-full py-0">
+			<form method="post" use:enhance>
+				<input type="hidden" name="post_id" value={data.post.data[0].slug} />
+				<input type="hidden" name="author_id" value={data.post.data[0].author} />
+
+				<div class="logo-cloud gap-1 flex h-16">
+					<button type="submit" formaction="?/like" class=" logo-item btn variant-surface-tertiary">
+						<Icon icon="octicon:thumbsup-16" width="20" />
+						<span>Like</span>
+						<span>1.2k</span>
+					</button>
+
+					<button formaction="?/dislike" type="submit" class=" logo-item btn ${buttonStyle}">
+						<Icon icon="octicon:thumbsdown-16" width="20" />
+						<span>Dislike</span>
+						<span>1.2k</span>
+					</button>
+
+					<div class="btn variant-surface-tertiary hover:">
+						<Icon icon="octicon:eye-16" width="20" />
+						<span>View</span>
+						<span>{viewCount}</span>
+					</div>
+				</div>
+
+				<div />
+			</form>
 		</div>
 
 		<PostContent contents={json_content.contents} />
-		<button type="button" class="btn variant-ghost-tertiary" on:click={doPost}> Post it. </button>
+		<button type="button" class="btn variant-ghost-tertiary" on:click={() => {}}> Post it. </button>
 	</div>
 </div>
