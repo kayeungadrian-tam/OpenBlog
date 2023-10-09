@@ -9,5 +9,6 @@ export const GET: RequestHandler = async ({ locals }) => {
         throw errorResponse;
     }
 
+
     throw redirect(303, '/');
 };

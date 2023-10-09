@@ -1,20 +1,26 @@
 import type { Actions } from "@sveltejs/kit";
+import { localStorageStore } from '@skeletonlabs/skeleton';
+import type { Writable } from 'svelte/store';
+
+
+
 
 
 export const load = async ({ params, fetch, locals: { supabase } }) => {
 
     const userData = (await supabase.auth.getUser());
 
-    // const test = userData.data.user?.user_metadata.full_name;
 
 
     const post_data = await supabase.from("blog_posts").select().eq("slug", params.slug)
-
     const user_id = post_data.data[0].author;
 
     // Get author data
     const author_data = await supabase.from("profiles").select().eq("id", user_id)
     const author = author_data.data[0];
+
+
+
 
 
 
@@ -33,31 +39,23 @@ export const load = async ({ params, fetch, locals: { supabase } }) => {
             .from('posts_score')
             .select("score").eq("post_id", params.slug).eq("user_id", user_id)
 
-        if (posts_score) {
+        if (posts_score?.length > 0) {
+            console.log('score');
+
             console.log('score', posts_score[0].score);
             return posts_score[0].score
-
-        }
-
-        if (posts_score?.length == 0) {
-            console.log('posts_score', posts_score);
-
-            let { data: res, error } = await supabase
-                .from('posts_score')
-                .insert([
-                    { user_id: user_id, post_id: params.slug, score: 1 },
-                ])
-                .select()
-
-
-            console.log('res', res);
-            console.log('error', error);
-            return
         }
 
 
+        let { data: res, error: e } = await supabase
+            .from('posts_score')
+            .insert([
+                { user_id: user_id, post_id: params.slug, score: 1 },
+            ])
+            .select()
 
 
+        return
 
     }
 
@@ -66,7 +64,6 @@ export const load = async ({ params, fetch, locals: { supabase } }) => {
     }
 
 
-    // setPostViewCount(user_id, Number(params.slug));
 
 
     return {
