@@ -36,6 +36,20 @@
 		setLocalScore(score);
 	});
 
+	function formatDatetimeToHumanReadable(datetimeStr: string, locale: string): string {
+		const options = {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric'
+		};
+
+		const datetime = new Date(datetimeStr);
+
+		const formattedDatetime = new Intl.DateTimeFormat(locale, options).format(datetime);
+
+		return formattedDatetime;
+	}
+
 	$: storeExample;
 </script>
 
@@ -49,8 +63,11 @@
 			<Avatar src={avatar_url || display_name} width="w-12" class="my-4" />
 			<div>
 				<p>{display_name}</p>
-				<p>Published on Apr 15</p>
-				{$storeExample}
+				<p>
+					<span>
+						{formatDatetimeToHumanReadable(data.post.data[0].published_at, 'en-US')}
+					</span>
+				</p>
 			</div>
 		</div>
 
@@ -107,4 +124,11 @@
 		<PostContent contents={json_content.contents} />
 		<button type="button" class="btn variant-ghost-tertiary" on:click={() => {}}> Post it. </button>
 	</div>
+</div>
+
+<div
+	class="
+	w-full bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100"
+>
+	OSEMTOESs
 </div>

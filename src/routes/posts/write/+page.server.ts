@@ -1,4 +1,5 @@
 import { contentArrayToString } from '$lib/shared/utils.js';
+import { redirect } from '@sveltejs/kit';
 
 // src/routes/+layout.server.ts
 export const load = async ({ locals: { getSession } }) => {
@@ -79,6 +80,48 @@ export const actions = {
 
         // Get length of formdata
 
+
+    },
+    testPost: async ({ request, fetch, locals: { supabase } }) => {
+        console.log('test post');
+
+        const formData = await request.formData();
+
+        console.log('formdata', formData);
+
+
+        let contents: object[] = [];
+        // let jsonContent = {
+        // "contents": []
+        // };
+
+        // Format formdata into json with "type" and "content" keys
+
+        formData.forEach((value, key) => {
+            console.log(`${key} ${value}`);
+            contents.push({
+                "type": key.toString(),
+                "content": value.toString()
+            })
+        })
+
+
+        const jsonContent = {
+            "contents": contents
+        }
+
+        console.log('jsonContent', jsonContent);
+        // Send to api endpoint
+
+        const res = await fetch(`/api/posts`, {
+            method: 'POST',
+            body: JSON.stringify(jsonContent)
+        })
+
+        const data = await res.json()
+        console.log('data', data);
+
+        throw redirect(303, `/posts/${data.slug}`);
 
     }
 }

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.postcss';
+	import { browser } from '$app/environment';
 
 	import type { ComponentEvents } from 'svelte';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
@@ -8,6 +9,7 @@
 
 	import { AppShell, initializeStores } from '@skeletonlabs/skeleton';
 	import AppBar from '$lib/components/AppBar.svelte';
+	import { LightSwitch } from '@skeletonlabs/skeleton';
 
 	import { Modal, getModalStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';

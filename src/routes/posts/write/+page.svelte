@@ -20,9 +20,9 @@
 	const test = 'h2';
 
 	let contents = [
-		{ type: 'h1', placeholder: 'title', content: 'Title' },
-		{ type: 'h2', placeholder: 'header', content: 'header1' },
-		{ type: 'h3', placeholder: 'sub-header', content: 'header2' },
+		{ type: 'header 1', placeholder: 'title', content: 'Title' },
+		{ type: 'header 2', placeholder: 'header', content: 'header1' },
+		{ type: 'header 3', placeholder: 'sub-header', content: 'header2' },
 		{ type: 'p', placeholder: 'start writing...', content: 'paragraph' },
 		{ type: 'codeBlock', content: 'const tes : string = "";', language: 'python' },
 		{ type: 'blockquote', content: 'Quote' },
@@ -73,40 +73,6 @@ def hoge():
   return None
 	`;
 
-	function convertArrayToHtmlString(
-		contents: { type: string; placeholder: string; content: string }[]
-	): string {
-		let htmlString = '';
-		for (const content of contents) {
-			switch (content.type) {
-				case 'h1':
-					htmlString += `<h1>${content.content}</h1>`;
-					break;
-				case 'h2':
-					htmlString += `<h2>${content.content}</h2>`;
-					break;
-				case 'h3':
-					htmlString += `<h3>${content.content}</h3>`;
-					break;
-				case 'p':
-					htmlString += `<p>${content.content}</p>`;
-					break;
-				case 'codeBlock':
-					htmlString += `<pre><code class="${content.language}">${content.content}</code></pre>`;
-					break;
-				case 'blockquote':
-					htmlString += `<blockquote>${content.content}</blockquote>`;
-					break;
-				case 'pre':
-					htmlString += `<pre>${content.content}</pre>`;
-					break;
-				default:
-					throw new Error(`Unknown content type: ${content.type}`);
-			}
-		}
-		return htmlString;
-	}
-
 	// $: console.log('content', contents);
 	$: contents = contents;
 	$: pyCode = pyCode;
@@ -135,7 +101,7 @@ def hoge():
 						<div class=" flex items-center {inputBox.type} ">
 							<input
 								type="text"
-								name={`${i.toString()}:${inputBox.type}:`}
+								name={inputBox.type}
 								placeholder={inputBox.placeholder}
 								class="input w-full {inputBox.type} !bg-transparent"
 								bind:value={inputBox.content}
@@ -165,7 +131,7 @@ def hoge():
 				<Icon icon="octicon:feed-plus-16" class="w-6 h-6 mr-2" />
 				Add
 			</button>
-			<button formaction="?/addPost" class="btn variant-filled-surface">Publish</button>
+			<button formaction="?/testPost" class="btn variant-filled-surface">Publish</button>
 		</form>
 
 		{#if result}
@@ -178,13 +144,7 @@ def hoge():
 
 <div class="card max-w-sm" data-popup="popupCloseQuery">
 	<div class="grid grid-cols-1 gap-2">
-		<button
-			id="wont-close"
-			class="btn variant-filled-error"
-			on:click={() => {
-				addContent('h1', '');
-			}}>#wont-close</button
-		>
+		<button id="wont-close" class="btn variant-filled-error">#wont-close</button>
 		<button id="will-close" class="btn variant-filled-success">#will-close</button>
 	</div>
 	<div class="arrow bg-surface-100-800-token" />

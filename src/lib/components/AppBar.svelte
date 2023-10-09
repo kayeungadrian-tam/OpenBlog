@@ -2,7 +2,7 @@
 	import type { Session } from '@supabase/supabase-js';
 	import { onMount } from 'svelte';
 
-	import { AppBar, getModalStore, popup, Avatar } from '@skeletonlabs/skeleton';
+	import { AppBar, getModalStore, popup, Avatar, LightSwitch } from '@skeletonlabs/skeleton';
 	import type { ModalSettings, PopupSettings } from '@skeletonlabs/skeleton';
 
 	import Icon from '@iconify/svelte';
@@ -46,7 +46,7 @@
 	};
 </script>
 
-<AppBar class="px-24">
+<AppBar>
 	<svelte:fragment slot="lead">
 		<a href="/">
 			<strong class="text-xl uppercase">{testSetting.siteLogo}</strong>
@@ -76,11 +76,10 @@
 					}}
 				/>
 			</button>
+			<LightSwitch />
+
 			<div data-popup="popupFeatured">
-				<div
-					class="flex flex-col items-center align-middle card p-4 shadow-xl gap-2"
-					data-sveltekit-reload
-				>
+				<div class="flex flex-col items-center align-middle card p-4 shadow-xl gap-2">
 					<a href="/profiles/{session.user?.id}" class="flex items-center gap-2 px-2 w-full">
 						<Icon icon="octicon:person-16" />
 						<span>Profile</span>
