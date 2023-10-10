@@ -6,19 +6,38 @@ import type { Writable } from 'svelte/store';
 
 
 
-export const load = async ({ params, fetch, locals: { supabase } }) => {
+export const load = async ({ params, fetch, locals: { getSession, supabase } }) => {
+
+
+    console.log('loading here');
+    const session = await getSession();
+    const { id } = session?.user;
+
+    console.log('id', session);
+
+    // console.log('session', session?.user);
+
 
     const userData = (await supabase.auth.getUser());
 
 
-
+    // async function getPost() {
+    // return fetch(`/api/posts/${params.slug}`);
     const post_data = await supabase.from("blog_posts").select().eq("slug", params.slug)
-    const user_id = post_data.data[0].author;
+    // return post_data.data[0];
+    // }
+
+    async function getPosts(params: any) {
+        const post_data = await supabase.from("blog_posts").select().eq("slug", params.slug)
+
+        return post_data;
+    }
 
     // Get author data
-    const author_data = await supabase.from("profiles").select().eq("id", user_id)
-    const author = author_data.data[0];
-
+    // async function getAuthor() {
+    //     const author_data = await supabase.from("profiles").select().eq("id", user_id)
+    //     const author = author_data.data[0];
+    // }
 
 
 
@@ -63,14 +82,16 @@ export const load = async ({ params, fetch, locals: { supabase } }) => {
 
     }
 
+    const author = {
 
+    }
 
 
     return {
         author_meta: author,
         post_id: params.slug,
         posts: [],
-        post: post_data,
+        post: getPosts(params),
         view: 10,
         score: 0
         // view: getPostViewCount(user_id, Number(params.slug)),
