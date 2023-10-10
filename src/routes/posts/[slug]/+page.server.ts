@@ -71,8 +71,10 @@ export const load = async ({ params, fetch, locals: { supabase } }) => {
         post_id: params.slug,
         posts: [],
         post: post_data,
-        view: getPostViewCount(user_id, Number(params.slug)),
-        score: setPostViewCount(user_id, Number(params.slug)),
+        view: 10,
+        score: 0
+        // view: getPostViewCount(user_id, Number(params.slug)),
+        // score: setPostViewCount(user_id, Number(params.slug)),
     };
 
 }
