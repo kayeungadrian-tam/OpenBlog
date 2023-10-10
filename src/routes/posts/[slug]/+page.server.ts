@@ -18,20 +18,27 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
     // console.log('session', session?.user);
 
 
-    const userData = (await supabase.auth.getUser());
+    // const userData = (await supabase.auth.getUser());
 
 
     // async function getPost() {
     // return fetch(`/api/posts/${params.slug}`);
-    const post_data = await supabase.from("blog_posts").select().eq("slug", params.slug)
+    // const post_data = await supabase.from("blog_posts").select().eq("slug", params.slug)
     // return post_data.data[0];
-    // }
+    // // }
 
-    async function getPosts(params: any) {
+    const getPosts = async (params: any) => {
         const post_data = await supabase.from("blog_posts").select().eq("slug", params.slug)
-
-        return post_data;
+        // const data = await post_data.json()
+        // console.log(data);
+        return post_data
     }
+
+    // async function getPosts(params: any) {
+    //     const post_data = await supabase.from("blog_posts").select().eq("slug", params.slug)
+
+    //     return new Promise(post_data);
+    // }
 
     // Get author data
     // async function getAuthor() {
