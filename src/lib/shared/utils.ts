@@ -13,3 +13,18 @@ export function contentArrayToString(array: any[]) {
     })
 
 }
+
+
+export function formatDatetimeToHumanReadable(datetimeStr: string, locale: string): string {
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    };
+
+    const datetime = new Date(datetimeStr);
+
+    const formattedDatetime = new Intl.DateTimeFormat(locale, options).format(datetime);
+
+    return formattedDatetime;
+}

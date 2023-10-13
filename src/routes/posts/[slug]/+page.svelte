@@ -7,6 +7,7 @@
 	import type { Writable } from 'svelte/store';
 	import { localStorageStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
+	import { formatDatetimeToHumanReadable } from '$lib/shared/utils.js';
 
 	export let data;
 
@@ -35,20 +36,6 @@
 	onMount(() => {
 		setLocalScore(score);
 	});
-
-	function formatDatetimeToHumanReadable(datetimeStr: string, locale: string): string {
-		const options = {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric'
-		};
-
-		const datetime = new Date(datetimeStr);
-
-		const formattedDatetime = new Intl.DateTimeFormat(locale, options).format(datetime);
-
-		return formattedDatetime;
-	}
 
 	$: storeExample;
 </script>

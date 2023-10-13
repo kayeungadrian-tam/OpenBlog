@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.postcss';
 	import { browser } from '$app/environment';
+	import { navigating } from '$app/stores';
 
 	import type { ComponentEvents } from 'svelte';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
@@ -14,6 +15,7 @@
 	import { Modal, getModalStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { invalidateAll } from '$app/navigation';
+	import LoadingBar from '$lib/components/LoadingBar.svelte';
 	export let data;
 
 	let { supabase, session } = data;
@@ -39,9 +41,13 @@
 	}
 </script>
 
+{#if $navigating}
+	<LoadingBar />
+{/if}
+
 <Modal />
 <!-- App Shell -->
-<AppShell on:scroll={scrollHandler}>
+<AppShell on:scroll={scrollHandler} slotPageContent="min-w-5xl" slotHeader="">
 	<svelte:fragment slot="header">
 		{#if y < 100}
 			<span class="opacity-1 duration-300 ease-in-out animate fade-in">
@@ -54,7 +60,7 @@
 		{/if}
 	</svelte:fragment>
 	<!-- Page Route Content -->
-	<main>
+	<main class="min-w-fit">
 		<slot />
 	</main>
 
