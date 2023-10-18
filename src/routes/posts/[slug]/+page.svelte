@@ -112,3 +112,4 @@
 		<button type="button" class="btn variant-ghost-tertiary" on:click={() => {}}> Post it. </button>
 	</div>
 </div>
+
