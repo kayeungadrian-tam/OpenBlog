@@ -11,7 +11,7 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
 
     console.log('loading here');
     const session = await getSession();
-    const { id } = session?.user;
+    // const { id } = session?.user;
 
     console.log('id', session);
 

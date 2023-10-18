@@ -47,17 +47,21 @@
 
 <Modal />
 <!-- App Shell -->
-<AppShell on:scroll={scrollHandler} slotPageContent="min-w-5xl" slotHeader="">
+<AppShell on:scroll={scrollHandler} slotPageContent="min-w-5xl " slotHeader="">
 	<svelte:fragment slot="header">
-		{#if y < 100}
+		<!-- {#if y < 100}
 			<span class="opacity-1 duration-300 ease-in-out animate fade-in">
 				<AppBar session={data.session} />
 			</span>
 		{:else}
-			<span class="opacity-0">
+			<span class="opacity-1 bg-primary-600">
 				<AppBar session={data.session} />
 			</span>
-		{/if}
+		{/if} -->
+
+		<span class="bg-secondary-600">
+			<AppBar {y} session={data.session} />
+		</span>
 	</svelte:fragment>
 	<!-- Page Route Content -->
 	<main class="min-w-fit">

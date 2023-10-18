@@ -16,6 +16,7 @@ export async function load({ locals: { supabase } }) {
             content: post.content,
             published_at: post.published_at,
             author: post.author,
+            tags: post.tags,
         }))
         ,
         topPosts: topPosts.data

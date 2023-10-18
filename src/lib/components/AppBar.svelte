@@ -10,6 +10,7 @@
 	import testSetting from '$lib/configs/textSetting.json';
 
 	export let session: Session | null;
+	export let y: number;
 
 	const userData =
 		session && (session as { user: { user_metadata: any } } | null)?.user?.user_metadata;
@@ -44,9 +45,11 @@
 		const redactedName = name.slice(0, 3) + '****';
 		return `${redactedName}@${domain}`;
 	};
+
+	$: y;
 </script>
 
-<AppBar>
+<AppBar background={y > 100 ? 'variant-glass-secondary' : ''}>
 	<svelte:fragment slot="lead">
 		<a href="/">
 			<strong class="text-xl uppercase">{testSetting.siteLogo}</strong>
@@ -85,10 +88,10 @@
 						<span>Profile</span>
 					</a>
 
-					<div class="flex items-center gap-2 px-2 w-full">
+					<a href="/profiles/setting" class="flex items-center gap-2 px-2 w-full">
 						<Icon icon="octicon:gear-16" />
 						<span>Setting</span>
-					</div>
+					</a>
 
 					<!-- Divider -->
 					<div class="w-full h-px bg-surface-100-800-token py-2"><hr /></div>

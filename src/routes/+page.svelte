@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formatDatetimeToHumanReadable } from '$lib/shared/utils.js';
-	import { TabGroup, Tab, TabAnchor } from '@skeletonlabs/skeleton';
+	import { TabGroup, Tab, TabAnchor, Avatar } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 
 	import type { PageData } from './$types';
@@ -9,6 +9,21 @@
 	let tabSet: number = 0;
 
 	const posts = data.posts;
+
+	const exampleTags = [
+		'javascript',
+		'nodejs',
+		'express',
+		'nextjs',
+		'vitejs',
+		'svelte',
+		'sapper',
+		'vite',
+		'vite-plugin',
+		'vite-plugin-ssr',
+		'vite-plugin-ssr-svelte',
+		'vite-plugin-ssr-svelte-tailwindcss'
+	];
 </script>
 
 <svelte:head>
@@ -17,10 +32,20 @@
 </svelte:head>
 
 <div class="container h-full mx-auto flex justify-center items-center">
-	<div class="space-y-10 text-center flex flex-col items-center w-screen max-w-5xl">
+	<div class="space-y-10 text-center flex flex-col items-center w-screen">
 		<h2 class="h2">Welcome to Skeleton.</h2>
 
-		<div class="w-full lg:grid lg:grid-cols-[1fr_300px] md:flex md:flex-col">
+		<div
+			class="
+			lg:max-w-6xl
+			md:max-w-4xl
+			w-screen
+		lg:grid
+		lg:grid-cols-[1fr_250px]
+		md:flex
+		md:flex-col
+		"
+		>
 			<TabGroup
 				hover="hover:text-primary-400"
 				active="text-primary-600 border-b border-primary-600"
@@ -44,19 +69,49 @@
 					</span></Tab
 				>
 				<!-- Tab Panels --->
+
 				<svelte:fragment slot="panel">
 					{#if tabSet === 0}
-						{#each posts as { slug, title, content, author, published_at }, i}
-							<div class="card variant-glass-surface max-w-3xl my-6">
-								<a href="/posts/{slug}">
-									<header class="card-header text-2xl">{title}</header>
-								</a>
-								<section class="p-4" />
-								<footer class="card-footer">
-									{formatDatetimeToHumanReadable(published_at, 'en-US')}
-								</footer>
-							</div>
-						{/each}
+						<div class="w-100">
+							{#each posts as { slug, title, content, author, published_at, tags }, i}
+								<div class="card variant-glass-surface my-6">
+									{slug}
+									<a href="/posts/{slug}">
+										<header class="card-header h3 text-left">{title}</header>
+										<section class="p-4 text-left">
+											Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit dolores ex,
+											natus adipisci est, esse magni eveniet, doloremque vero modi placeat dolorum
+											magnam sequi tempore! Et quaerat dolore praesentium porro?
+										</section>
+									</a>
+									<footer class="card-footer">
+										<div class="flex">
+											<div class="flex align-middle items-center gap-4 text-sm italic">
+												<span>
+													<Avatar src="" initials="AB" width="w-10" />
+												</span>
+												<span class="flex flex-col items-start">
+													<a class="text-primary-500" href="/">
+														<span>
+															{author.substring(0, 8)}
+														</span>
+													</a>
+													<div class="text-tertiary-700">
+														{formatDatetimeToHumanReadable(published_at, 'en-US')}
+													</div>
+												</span>
+											</div>
+											<div class="right-0 absolute bottom-0 space-x-2 m-4">
+												{#each tags as tag}
+													<span class="chip variant-ghost-primary">{tag}</span>
+												{/each}
+											</div>
+										</div>
+									</footer>
+									<!-- <Avatar src={author.avatar} alt={author.name} /> -->
+								</div>
+							{/each}
+						</div>
 					{:else if tabSet === 1}
 						(tab panel 2 contents)
 					{:else if tabSet === 2}
@@ -64,7 +119,16 @@
 					{/if}
 				</svelte:fragment>
 			</TabGroup>
-			<div>Something else</div>
+			<div>
+				<div class="mb-6">
+					<strong class="h4 text-center">Popular Tags</strong>
+				</div>
+				<div class="text-left p-6">
+					{#each exampleTags as tag}
+						<a href="/" class=" m-1 chip variant-filled">{tag}</a>
+					{/each}
+				</div>
+			</div>
 		</div>
 
 		<!-- Animated Logo -->
@@ -94,8 +158,6 @@
 		>
 	</div>
 </div>
-
-<div class="bg-primary-300 text-secondary-500">Footer</div>
 
 <style lang="postcss">
 	figure {

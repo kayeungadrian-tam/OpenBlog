@@ -112,10 +112,3 @@
 		<button type="button" class="btn variant-ghost-tertiary" on:click={() => {}}> Post it. </button>
 	</div>
 </div>
-
-<div
-	class="
-	w-full bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100"
->
-	OSEMTOESs
-</div>
