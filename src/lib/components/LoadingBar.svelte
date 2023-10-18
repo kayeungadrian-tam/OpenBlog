@@ -15,6 +15,6 @@
 </script>
 
 <!-- <h1>testing</h1> -->
-<div class=" top-[68px] absolute left-0 w-full h-4">
+<div class=" top-[74px] absolute left-0 w-full h-4">
 	<ProgressBar height="h-1" />
 </div>
