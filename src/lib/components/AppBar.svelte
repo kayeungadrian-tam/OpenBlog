@@ -79,7 +79,6 @@
 					}}
 				/>
 			</button>
-			<LightSwitch />
 
 			<div data-popup="popupFeatured">
 				<div class="flex flex-col items-center align-middle card p-4 shadow-xl gap-2">
@@ -110,5 +109,7 @@
 				</div>
 			</div>
 		{/if}
+		<LightSwitch />
+
 	</svelte:fragment>
 </AppBar>
