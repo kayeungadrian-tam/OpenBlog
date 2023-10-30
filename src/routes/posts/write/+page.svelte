@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { CodeBlock, popup, type PopupSettings } from '@skeletonlabs/skeleton';
+	import { CodeBlock, popup, tocCrawler } from '@skeletonlabs/skeleton';
 	import { RangeSlider } from '@skeletonlabs/skeleton';
+	import { TableOfContents } from '@skeletonlabs/skeleton';
+	import { InputChip } from '@skeletonlabs/skeleton';
 
 	import hljs from 'highlight.js/lib/core';
 	import python from 'highlight.js/lib/languages/python';
@@ -17,21 +19,25 @@
 
 	export let data;
 
-	const test = 'h2';
+	const supabase = data.supabase;
+	const userId = data.session?.user.id;
 
 	const inputTypes = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
 	let contents = [
-		{ type: 'h2', placeholder: 'header', content: 'header1' },
-		{ type: 'h3', placeholder: 'sub-header', content: 'header2' }
+		// { type: 'h2', placeholder: 'Description', content: 'A new description' },
+		{ type: 'textarea', placeholder: 'Start writing...', content: 'lorem' }
+		// { type: 'h3', placeholder: 'sub-header', content: 'header2' }
 		// { type: 'p', placeholder: 'start writing...', content: 'paragraph' }
 		// { type: 'codeBlock', content: 'const tes : string = "";', language: 'python' },
 		// { type: 'blockquote', content: 'Quote' }
 		// { type: 'pre', content: 'pre-formatted text in here' }
 	];
 
-	let title = '';
+	let title = 'A new story';
+	let description = 'A new description';
 	let result = '';
+	let list: string[] = [];
 
 	const popupCloseQuery: PopupSettings = {
 		event: 'click',
@@ -66,8 +72,30 @@
 		placement: 'top'
 	};
 
-	const publish = () => {
-		console.log('publish', result);
+	const publish = async () => {
+		const postContent = {
+			contents: contents
+		};
+
+		console.log('tags', list);
+
+		const { data, error } = await supabase
+			.from('blog_posts')
+			.insert([
+				{
+					title: title,
+					description: description,
+					json_content: postContent,
+					author: userId,
+					tags: list
+				}
+			])
+			.select();
+
+		console.log('data', data);
+
+		// Redirect to home page
+		window.location.href = '/';
 	};
 
 	const delteContent = (index: number) => {
@@ -124,16 +152,33 @@ def hoge():
 <div class="container h-full mx-auto flex justify-center py-4">
 	<div class="space-y-10 text-center flex flex-col items-center">
 		<h2 class="h2">Share your thoughts!</h2>
-		<form method="POST">
-			<input
-				type="text"
-				name="title"
-				placeholder="Title"
-				class="input w-full h1"
-				bind:value={title}
-			/>
+		<form method="POST" class="break-words w-screen max-w-4xl space-y-6 px-20">
+			<div class="space-y-6">
+				<input
+					type="text"
+					name="title"
+					placeholder="Title"
+					class="input h2 p-4"
+					bind:value={title}
+				/>
 
-			<div class="flex flex-col">
+				<input
+					type="text"
+					name="title"
+					placeholder="Title"
+					class="input h3 p-2 !bg-transparent"
+					bind:value={description}
+				/>
+
+				<InputChip
+					class="variant-soft-outline border-0"
+					bind:value={list}
+					name="chips"
+					placeholder="Enter any tag..."
+				/>
+			</div>
+
+			<div class="flex flex-col w-full gap-2" use:tocCrawler={{ mode: 'generate' }}>
 				{#each contents as inputBox, i}
 					{#if inputBox.type === 'codeBlock'}
 						<textarea class="textarea text-left" rows="4" placeholder="" bind:value={pyCode} />
@@ -150,15 +195,6 @@ def hoge():
 							<button
 								type="button"
 								class="absolute right-[-3rem] btn-icon btn-icon-xl variant-filled-error h-10 w-10"
-								on:click={() => {
-									delteContent(i);
-								}}
-							>
-								<Icon icon="octicon:trash-16" />
-							</button>
-							<button
-								type="button"
-								class="absolute left-[-3rem] btn-icon btn-icon-xl variant-filled-success h-10 w-10"
 								on:click={() => {
 									delteContent(i);
 								}}
@@ -191,24 +227,8 @@ def hoge():
 				{/each}
 			</div>
 		</form>
-		<input
-			type="text"
-			name="tags"
-			placeholder="Image URL"
-			class="input w-full"
-			bind:value={imgURL}
-		/>
-		<RangeSlider name="range-slider" bind:value={imgWidth} max={600} step={10}>Label</RangeSlider>
-		{imgURL}
-		<img src={imgURL} width={imgWidth} />
-		<!-- <button
-			class="btn variant-filled-surface"
-			on:click={() => {
-				testAdd();
-			}}>Publish</button
-		> -->
 
-		<div class="flex gap-2 absolute bottom-5">
+		<div class="flex gap-2">
 			<button class="chip variant-filled" use:popup={inputPopup}>
 				<Icon icon="octicon:feed-plus-16" class="w-4 h-4 " />
 				<span> headers </span>
@@ -230,20 +250,13 @@ def hoge():
 			</button>
 		</div>
 
-		{#if result}
-			<!-- <div class="text-left" innerHTML={result} />
-			 -->
-			{result}
-		{/if}
+		<button
+			on:click={() => {
+				publish();
+			}}
+			class="btn variant-filled-primary">Pubish</button
+		>
 	</div>
-</div>
-
-<div class="card max-w-sm" data-popup="popupCloseQuery">
-	<div class="grid grid-cols-1 gap-2">
-		<button id="wont-close" class="btn variant-filled-error">#wont-close</button>
-		<button id="will-close" class="btn variant-filled-success">#will-close</button>
-	</div>
-	<div class="arrow bg-surface-100-800-token" />
 </div>
 
 <div class="card p-4 w-72 shadow-xl rounded-xl" data-popup="inputPopup">

@@ -3,9 +3,9 @@
 
 export const load = async ({ params, fetch }) => {
 
-        console.log(params);
+    console.log(params);
 
-        return {
-            tag: params.tag
-        }
+    return {
+        tag: params.tag
+    }
 }

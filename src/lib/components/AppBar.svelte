@@ -87,7 +87,7 @@
 						<span>Profile</span>
 					</a>
 
-					<a href="/profiles/setting" class="flex items-center gap-2 px-2 w-full">
+					<a href="/setting/{session.user?.id}" class="flex items-center gap-2 px-2 w-full">
 						<Icon icon="octicon:gear-16" />
 						<span>Setting</span>
 					</a>
@@ -110,6 +110,5 @@
 			</div>
 		{/if}
 		<LightSwitch />
-
 	</svelte:fragment>
 </AppBar>

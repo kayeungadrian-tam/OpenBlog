@@ -5,6 +5,11 @@
 	export let data;
 
 	let { display_name, email, avatar_url, id } = data.profile;
+
+	let name = display_name;
+
+	$: name;
+
 	const followings = data.following;
 </script>
 
@@ -33,16 +38,12 @@
 			<div>
 				<form method="post" class="flex flex-col items-center gap-4 px-16 max-w-2xl container">
 					<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
-						<div class="input-group-shim">id</div>
-						<input name="id" type="text" placeholder={id} disabled={true} />
-					</div>
-					<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
 						<div class="input-group-shim">email</div>
 						<input name="email" type="text" placeholder={email} disabled={true} />
 					</div>
 					<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
 						<div class="input-group-shim">Display name:</div>
-						<input name="display_name" type="text" placeholder={display_name} />
+						<input name="display_name" type="text" placeholder="Display Name" bind:value={name} />
 					</div>
 					<Avatar src={avatar_url} width="w-48" />
 					<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">

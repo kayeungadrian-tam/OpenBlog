@@ -30,11 +30,20 @@ export const GET = async ({ url, locals: { supabase }, request, response }) => {
     console.log("Get viewed server side");
 
     const post_id = url.searchParams.get('post_id');
+    const score = url.searchParams.get('score');
+    const userId = url.searchParams.get('user_id');
+
+    console.log('post_id', post_id);
+    console.log('score', score);
+    console.log('userId', userId);
+
 
     let { data: posts_score, error } = await supabase
         .from('posts_score')
-        .select('score')
+        .update({ 'score': score })
         .eq("post_id", post_id)
+        .eq('user_id', userId);
+
 
 
 

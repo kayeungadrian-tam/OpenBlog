@@ -60,6 +60,6 @@ export const actions: Actions = {
         // wait for 2 seconds
         // await new Promise(resolve => setTimeout(resolve, 2000));
 
-        throw redirect(303, `/profiles/${userId}`);
+        throw redirect(303, `/setting/${userId}`);
     }
 };

@@ -10,6 +10,13 @@
 
 	const posts = data.posts;
 
+	console.log('posts', posts);
+
+	const getAuthor = async (data: any) => {
+		const res = await data.json();
+		return res;
+	};
+
 	const exampleTags = [
 		'javascript',
 		'nodejs',
@@ -38,7 +45,6 @@
 		<div
 			class="
 			lg:max-w-6xl
-			md:max-w-4xl
 			w-screen
 		lg:grid
 		lg:grid-cols-[1fr_250px]
@@ -73,26 +79,29 @@
 				<svelte:fragment slot="panel">
 					{#if tabSet === 0}
 						<div class="w-100">
-							{#each posts as { slug, title, content, author, published_at, tags }, i}
+							{#each posts as { id, discription, title, content, author, published_at, tags }, i}
 								<div class="card variant-glass-surface my-6">
-									<a href="/posts/{slug}">
+									<a href="/posts/{id}">
 										<header class="card-header h3 text-left">{title}</header>
 										<section class="p-4 text-left">
-											Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit dolores ex,
-											natus adipisci est, esse magni eveniet, doloremque vero modi placeat dolorum
-											magnam sequi tempore! Et quaerat dolore praesentium porro?
+											{discription}
 										</section>
 									</a>
 									<footer class="card-footer">
 										<div class="flex">
 											<div class="flex align-middle items-center gap-4 text-sm italic">
 												<span>
-													<Avatar src="" initials="AB" width="w-10" />
+													<Avatar
+														src="https://lh3.googleusercontent.com/a/ACg8ocLkaCye9ZoiP2MdgYa9TrZmtyiyytpeAHBYpFb4UcgwC5I=s96-c"
+														initials="AB"
+														width="w-10"
+													/>
 												</span>
 												<span class="flex flex-col items-start">
-													<a class="text-primary-500" href="/">
+													<a class="hover:text-primary-400" href="/">
 														<span>
-															{author.substring(0, 8)}
+															Adrian Tam
+															<!-- {author.substring(0, 8)} -->
 														</span>
 													</a>
 													<div class="text-tertiary-700">
@@ -102,7 +111,7 @@
 											</div>
 											<div class="right-0 absolute bottom-0 space-x-2 m-4">
 												{#each tags as tag}
-													<span class="chip variant-ghost-primary">{tag}</span>
+													<span class="chip variant-filled-secondary">{tag}</span>
 												{/each}
 											</div>
 										</div>
@@ -112,9 +121,9 @@
 							{/each}
 						</div>
 					{:else if tabSet === 1}
-						(tab panel 2 contents)
+						(coming soon...)
 					{:else if tabSet === 2}
-						(tab panel 3 contents)
+						(coming soon...)
 					{/if}
 				</svelte:fragment>
 			</TabGroup>
@@ -129,42 +138,9 @@
 						{/each}
 					</div>
 				</div>
-				
+
 				<InfoCard />
 			</div>
 		</div>
 	</div>
 </div>
-
-<style lang="postcss">
-	figure {
-		@apply flex relative flex-col;
-	}
-	figure svg,
-	.img-bg {
-		@apply w-64 h-64 md:w-80 md:h-80;
-	}
-	.img-bg {
-		@apply absolute z-[-1] rounded-full blur-[50px] transition-all;
-		animation: pulse 5s cubic-bezier(0, 0, 0, 0.5) infinite, glow 5s linear infinite;
-	}
-	@keyframes glow {
-		0% {
-			@apply bg-primary-400/50;
-		}
-		33% {
-			@apply bg-secondary-400/50;
-		}
-		66% {
-			@apply bg-tertiary-400/50;
-		}
-		100% {
-			@apply bg-primary-400/50;
-		}
-	}
-	@keyframes pulse {
-		50% {
-			transform: scale(1.5);
-		}
-	}
-</style>

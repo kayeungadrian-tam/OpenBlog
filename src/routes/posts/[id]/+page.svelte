@@ -4,18 +4,17 @@
 
 	import PostContent from '$lib/components/PostContent.svelte';
 	import { enhance } from '$app/forms';
-	import type { Writable } from 'svelte/store';
-	import { localStorageStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { formatDatetimeToHumanReadable } from '$lib/shared/utils.js';
+	import storeExample from '$lib/shared/stores/postTest.js';
 
 	export let data;
 
-	const storeExample: Writable<string> = localStorageStore('storeExample', '');
+	const { post, author } = data.data;
 
-	const { display_name, avatar_url } = data.author_meta;
-	const title = data.post.data[0].title;
-	const { json_content, description } = data.post.data[0];
+	const { display_name, avatar_url } = author.data[0];
+
+	const { published_at, json_content, description, title, tags } = post[0];
 
 	const viewCount = data.view;
 	const score = data.score;
@@ -33,8 +32,31 @@
 				break;
 		}
 	}
+
+	async function setPostCount() {
+		const userId = data.session?.user.id;
+		const supabase = data.supabase;
+		const postId = post[0].id;
+		console.log('userId', userId);
+		console.log('postId', postId);
+
+		let { data: posts_score, error } = await supabase
+			.from('posts_score')
+			.select('score')
+			.eq('post_id', postId)
+			.eq('user_id', userId);
+
+		if (posts_score.length === 0) {
+			let { data: res, error: e } = await supabase
+				.from('posts_score')
+				.insert([{ user_id: userId, post_id: postId, score: 1 }])
+				.select();
+		}
+	}
+
 	onMount(() => {
 		setLocalScore(score);
+		setPostCount();
 	});
 
 	$: storeExample;
@@ -46,15 +68,23 @@
 		<h3 class="h3 text-tertiary-400">
 			{description}
 		</h3>
-		<div class="flex items-center gap-8 justify-start w-full">
-			<Avatar src={avatar_url || display_name} width="w-12" class="my-4" />
-			<div>
-				<p>{display_name}</p>
-				<p>
-					<span>
-						{formatDatetimeToHumanReadable(data.post.data[0].published_at, 'en-US')}
-					</span>
-				</p>
+
+		<div class="flex w-full justify-evenly gap-8 align-middle items-stretch">
+			<div class="flex items-center gap-8 justify-start w-full">
+				<Avatar src={avatar_url || display_name} width="w-12" class="my-4" />
+				<div>
+					<p>{display_name}</p>
+					<p>
+						<span>
+							{formatDatetimeToHumanReadable(published_at, 'en-US')}
+						</span>
+					</p>
+				</div>
+			</div>
+			<div class="grid grid-cols-2 gap-4 w-auto justify-end items-end mb-2">
+				{#each tags as tag}
+					<div class="chip variant-filled-secondary px-8 h-8">{tag}</div>
+				{/each}
 			</div>
 		</div>
 
@@ -69,8 +99,8 @@
 					};
 				}}
 			>
-				<input type="hidden" name="post_id" value={data.post.data[0].slug} />
-				<input type="hidden" name="author_id" value={data.post.data[0].author} />
+				<!-- <input type="hidden" name="post_id" value={data.post.data[0].slug} /> -->
+				<!-- <input type="hidden" name="author_id" value={data.post.data[0].author} /> -->
 
 				<div class="logo-cloud gap-1 flex h-16">
 					<button
@@ -109,7 +139,5 @@
 		</div>
 
 		<PostContent contents={json_content.contents} />
-		<button type="button" class="btn variant-ghost-tertiary" on:click={() => {}}> Post it. </button>
 	</div>
 </div>
-
