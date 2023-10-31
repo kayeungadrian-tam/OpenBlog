@@ -1,4 +1,4 @@
-import type { Actions } from "@sveltejs/kit";
+import { redirect, type Actions } from "@sveltejs/kit";
 import { localStorageStore } from '@skeletonlabs/skeleton';
 import type { Writable } from 'svelte/store';
 
@@ -12,6 +12,8 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
     const session = await getSession();
     const userId = session?.user?.id;
 
+    console.log('userId', userId);
+
 
     const getPosts = async (id: string) => {
         const { data: postData, error } = await supabase.from("blog_posts").select().eq("id", id)
@@ -24,6 +26,11 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
     }
 
     async function getPostScore() {
+
+        if (!userId) {
+            return 1;
+        }
+
         let { data, error } = await supabase
             .from("posts_score")
             .select("score")
@@ -32,26 +39,16 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
 
         return data[0].score;
 
-
     }
-
-    async function getAuthor() {
-        const auytho = await supabase.from("blog_posts").select().eq("id", params.id)
-
-    }
-
-
-
-
 
     const getPostViewCount = async (user_id: string, post_id: Number) => {
 
         const res = await fetch(`/api/posts/view?post_id=${post_id}`)
         const data = await res.json()
-        console.log(data);
         return data
 
     }
+    const updatePostViewCount = async (user_id: string, post_id: Number) => { }
 
     const setPostViewCount = async () => {
 
@@ -73,16 +70,9 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
 
     }
 
-    const author = {
-        name: 'test',
-        avatar_url: 'test'
-    }
+    // setPostViewCount();
+    let score = getPostScore();
 
-
-    // setPostViewCount('24b2d0de-d683-43de-bcc4-8d8988f77558', params.id)
-    setPostViewCount();
-
-    const score = getPostScore();
     return {
         post_id: params.id,
         // posts: [],
@@ -98,15 +88,13 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
 export const actions: Actions = {
 
     like: async ({ fetch, request, params, url, locals: { getSession } }) => {
-        console.log('like');
-        const formData = await request.formData();
-
-        console.log('url', params);
 
         const session = await getSession();
-        const userId = session?.user?.id;
-        console.log('userId', userId);
+        if (!session) {
+            throw redirect(303, '/login');
+        }
 
+        const userId = session.user?.id;
         const postId = params.id;
 
         const res = await fetch(`/api/posts/view?post_id=${postId}&score=2&user_id=${userId}`, {
@@ -115,15 +103,13 @@ export const actions: Actions = {
     },
 
     dislike: async ({ fetch, request, params, url, locals: { getSession } }) => {
-        console.log('like');
-        const formData = await request.formData();
-
-        console.log('url', params);
 
         const session = await getSession();
-        const userId = session?.user?.id;
-        console.log('userId', userId);
+        if (!session) {
+            throw redirect(303, '/login');
+        }
 
+        const userId = session.user?.id;
         const postId = params.id;
 
         const res = await fetch(`/api/posts/view?post_id=${postId}&score=0&user_id=${userId}`, {

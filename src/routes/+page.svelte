@@ -10,8 +10,6 @@
 
 	const posts = data.posts;
 
-	console.log('posts', posts);
-
 	const getAuthor = async (data: any) => {
 		const res = await data.json();
 		return res;

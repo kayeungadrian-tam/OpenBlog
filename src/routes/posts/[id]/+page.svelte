@@ -37,8 +37,6 @@
 		const userId = data.session?.user.id;
 		const supabase = data.supabase;
 		const postId = post[0].id;
-		console.log('userId', userId);
-		console.log('postId', postId);
 
 		let { data: posts_score, error } = await supabase
 			.from('posts_score')

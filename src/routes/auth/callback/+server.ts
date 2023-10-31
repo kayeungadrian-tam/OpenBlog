@@ -11,5 +11,7 @@ export const GET = async ({ url, locals: { supabase } }) => {
         console.log(data.data.user?.user_metadata)
     }
 
-    throw redirect(303, '/')
+
+
+    throw redirect(303, url.origin)
 }
