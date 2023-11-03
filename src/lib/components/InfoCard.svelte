@@ -1,25 +1,26 @@
 <script lang="ts">
 	import settingData from '$lib/configs/textSetting.json';
 
-	const author = settingData.author;
-	const github = settingData.github;
+	const { author, github, website } = settingData;
+
+	function getYear() {
+		return new Date().getFullYear();
+	}
 </script>
 
-<footer
-	class="w-full flex-col justify-between items-center py-8 m-4 sticky flex px-16 variant-glass-success rounded-2xl"
->
-	<div class="flex flex-col gap-y-2">
-		<h2 class="text-surface-400 font-light italic text-sm">by {author}</h2>
+<footer class="flex justify-between items-center m-0 bottom-0 px-16 variant-glass-success pb-4">
+	<div class="flex flex-col">
+		<h2 class="text-surface-400 font-light italic text-sm">by {author}&copy;{getYear()}</h2>
 
-		<a href="/author" class="font-bold text-lg hover:underline">About me</a>
+		<a href={website} target="_blank" class="font-bold text-lg">About me</a>
 	</div>
 
-	<div class="flex flex-col gap-y-2">
+	<div class="flex flex-col">
 		<h2 class="text-surface-400 font-light italic text-sm">see source code</h2>
 
-		<a href={github} target="_blank" class="font-bold text-lg hover:underline">GitHub</a>
+		<a href={github} target="_blank" class="font-bold text-lg">GitHub</a>
 	</div>
-	<div class="flex flex-col gap-y-2">
+	<div class="flex flex-col">
 		<h2 class="text-surface-400 font-light italic text-sm">designed with</h2>
 		<a href="https://www.skeleton.dev" target="_blank">
 			<svg

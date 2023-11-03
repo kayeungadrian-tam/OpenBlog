@@ -1,19 +1,17 @@
 <script lang="ts">
 	import { formatDatetimeToHumanReadable } from '$lib/shared/utils.js';
-	import { TabGroup, Tab, TabAnchor, Avatar } from '@skeletonlabs/skeleton';
+	import { TabGroup, Tab, Avatar } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import InfoCard from '$lib/components/InfoCard.svelte';
+	import settingData from '$lib/configs/textSetting.json';
+
+	const { welcomeMsg } = settingData;
 
 	import type { PageData } from './$types';
 	export let data: PageData;
 	let tabSet: number = 0;
 
 	const posts = data.posts;
-
-	const getAuthor = async (data: any) => {
-		const res = await data.json();
-		return res;
-	};
 
 	const exampleTags = [
 		'javascript',
@@ -29,6 +27,14 @@
 		'vite-plugin-ssr-svelte',
 		'vite-plugin-ssr-svelte-tailwindcss'
 	];
+
+	function trancate(str: string, num: number) {
+		if (str.length > num) {
+			return str.slice(0, num) + '...';
+		} else {
+			return str;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -36,18 +42,20 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<div class="container h-full mx-auto flex justify-center items-center">
-	<div class="space-y-10 text-center flex flex-col items-center w-screen">
-		<h2 class="h2">Welcome to Skeleton.</h2>
+<div class="container h-full mx-auto flex justify-center items-start min-h-screen">
+	<div class="space-y-10 text-center flex flex-col items-center justify-self-start align-top">
+		<h2 class="h3">{welcomeMsg}</h2>
 
 		<div
 			class="
 			lg:max-w-6xl
 			w-screen
+			sm:px-6
 		lg:grid
 		lg:grid-cols-[1fr_250px]
 		md:flex
 		md:flex-col
+		md:px-12
 		"
 		>
 			<TabGroup
@@ -77,12 +85,15 @@
 				<svelte:fragment slot="panel">
 					{#if tabSet === 0}
 						<div class="w-100">
-							{#each posts as { id, discription, title, content, author, published_at, tags }, i}
-								<div class="card variant-glass-surface my-6">
+							{#each posts as { id, discription, title, content, author, published_at, tags, view_count }, i}
+								<div class="card my-6 relative">
 									<a href="/posts/{id}">
 										<header class="card-header h3 text-left">{title}</header>
 										<section class="p-4 text-left">
-											{discription}
+											<!-- {discription} -->
+											<div class="hidden lg:block">
+												{trancate(content, 300)}
+											</div>
 										</section>
 									</a>
 									<footer class="card-footer">
@@ -114,7 +125,11 @@
 											</div>
 										</div>
 									</footer>
-									<!-- <Avatar src={author.avatar} alt={author.name} /> -->
+									<div class="absolute top-0 right-0 m-4">
+										<div class="flex align-middle items-center gap-3 px-2">
+											<Icon icon="octicon:eye-16" />{view_count}
+										</div>
+									</div>
 								</div>
 							{/each}
 						</div>
@@ -136,9 +151,9 @@
 						{/each}
 					</div>
 				</div>
-
-				<InfoCard />
 			</div>
 		</div>
 	</div>
 </div>
+
+<InfoCard />

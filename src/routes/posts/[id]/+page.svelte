@@ -6,6 +6,8 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { formatDatetimeToHumanReadable } from '$lib/shared/utils.js';
+	import { marked } from 'marked';
+
 	import storeExample from '$lib/shared/stores/postTest.js';
 
 	export let data;
@@ -14,9 +16,9 @@
 
 	const { display_name, avatar_url } = author.data[0];
 
-	const { published_at, json_content, description, title, tags } = post[0];
+	const { published_at, content, view_count, title, tags } = post[0];
 
-	const viewCount = data.view;
+	const viewCount = view_count;
 	const score = data.score;
 
 	function setLocalScore(score: number) {
@@ -33,28 +35,43 @@
 		}
 	}
 
-	async function setPostCount() {
+	async function updatePostScore() {
 		const userId = data.session?.user.id;
 		const supabase = data.supabase;
 		const postId = post[0].id;
 
-		let { data: posts_score, error } = await supabase
+		let { data: _res, error: _e } = await supabase
 			.from('posts_score')
 			.select('score')
+			.eq('user_id', userId)
 			.eq('post_id', postId)
-			.eq('user_id', userId);
+			.single();
 
-		if (posts_score.length === 0) {
-			let { data: res, error: e } = await supabase
-				.from('posts_score')
-				.insert([{ user_id: userId, post_id: postId, score: 1 }])
-				.select();
+		if (_res) {
+			return;
 		}
+
+		let { data: res, error: e } = await supabase.from('posts_score').insert({
+			user_id: userId,
+			post_id: postId,
+			score: 1
+		});
+	}
+
+	async function addPostCount() {
+		const userId = data.session?.user.id;
+		const supabase = data.supabase;
+		const postId = post[0].id;
+
+		let { data: res, error: e } = await supabase.rpc('increment', { x: 1, row_id: postId });
+		console.log('res', res);
+		console.log('e', e);
 	}
 
 	onMount(() => {
 		setLocalScore(score);
-		setPostCount();
+		addPostCount();
+		updatePostScore();
 	});
 
 	$: storeExample;
@@ -63,9 +80,14 @@
 <div class="container h-full mx-auto flex items-center justify-center">
 	<div class="space-y-8 text-left flex flex-col items-center py-8 max-w-3xl">
 		<h1 class="h1">{title}</h1>
-		<h3 class="h3 text-tertiary-400">
-			{description}
-		</h3>
+		<div class="flex gap-4 w-auto mb-2">
+			{#each tags as tag}
+				<div class="chip variant-filled-secondary px-8 h-8">{tag}</div>
+			{/each}
+		</div>
+		<!-- <h3 class="h3"> -->
+		<!-- {description} -->
+		<!-- </h3> -->
 
 		<div class="flex w-full justify-evenly gap-8 align-middle items-stretch">
 			<div class="flex items-center gap-8 justify-start w-full">
@@ -78,11 +100,6 @@
 						</span>
 					</p>
 				</div>
-			</div>
-			<div class="grid grid-cols-2 gap-4 w-auto justify-end items-end mb-2">
-				{#each tags as tag}
-					<div class="chip variant-filled-secondary px-8 h-8">{tag}</div>
-				{/each}
 			</div>
 		</div>
 
@@ -136,6 +153,8 @@
 			</form>
 		</div>
 
-		<PostContent contents={json_content.contents} />
+		<article class="prose dark:prose-invert prose-code:text-primary-600 text-lg">
+			{@html marked.parse(content)}
+		</article>
 	</div>
 </div>

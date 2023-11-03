@@ -38,3 +38,11 @@ pre {
 	@apply bg-gray-500 text-green-200 rounded-xl p-4 overflow-auto;
 }
 
+
+.gradient-heading {
+	@apply bg-clip-text text-transparent box-decoration-clone;
+	/* Direction */
+	@apply bg-gradient-to-t;
+	/* Color Stops */
+	@apply from-primary-400 via-tertiary-100 to-primary-500;
+}

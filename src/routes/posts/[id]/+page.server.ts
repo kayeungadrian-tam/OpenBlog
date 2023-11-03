@@ -12,7 +12,6 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
     const session = await getSession();
     const userId = session?.user?.id;
 
-    console.log('userId', userId);
 
 
     const getPosts = async (id: string) => {
@@ -37,7 +36,15 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
             .eq("post_id", params.id)
             .eq("user_id", userId)
 
-        return data[0].score;
+        console.log('data', data);
+
+
+
+        if (data?.length > 0) {
+            return data[0].score;
+        }
+
+        return 1
 
     }
 
@@ -72,12 +79,13 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
 
     // setPostViewCount();
     let score = getPostScore();
+    // let score = 0;
 
     return {
         post_id: params.id,
         // posts: [],
         data: getPosts(params.id),
-        view: 10,
+        // view: 10,
         score: score
         // view: getPostViewCount(user_id, Number(params.slug)),
         // score: setPostViewCount(user_id, Number(params.slug)),

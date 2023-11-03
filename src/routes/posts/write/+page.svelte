@@ -1,9 +1,12 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { CodeBlock, popup, tocCrawler } from '@skeletonlabs/skeleton';
+	import { CodeBlock, RadioGroup, RadioItem, popup, tocCrawler } from '@skeletonlabs/skeleton';
 	import { RangeSlider } from '@skeletonlabs/skeleton';
 	import { TableOfContents } from '@skeletonlabs/skeleton';
 	import { InputChip } from '@skeletonlabs/skeleton';
+
+	import { marked } from 'marked';
+	import { goto } from '$app/navigation';
 
 	import hljs from 'highlight.js/lib/core';
 	import python from 'highlight.js/lib/languages/python';
@@ -21,8 +24,7 @@
 
 	const supabase = data.supabase;
 	const userId = data.session?.user.id;
-
-	const inputTypes = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+	let viewIndex: number = 0;
 
 	let contents = [
 		// { type: 'h2', placeholder: 'Description', content: 'A new description' },
@@ -34,9 +36,10 @@
 		// { type: 'pre', content: 'pre-formatted text in here' }
 	];
 
-	let title = 'A new story';
-	let description = 'A new description';
+	let title = '';
+	let description = '';
 	let result = '';
+	let markdown = '';
 	let list: string[] = [];
 
 	const popupCloseQuery: PopupSettings = {
@@ -98,6 +101,29 @@
 		window.location.href = '/';
 	};
 
+	const publishMarkdown = async () => {
+		console.log(markdown);
+
+		const { data, error } = await supabase
+			.from('blog_posts')
+			.insert([
+				{
+					title: title,
+					description: description,
+					// json_content: postContent,
+					content: markdown,
+					author: userId,
+					tags: list
+				}
+			])
+			.select();
+
+		console.log('data', data);
+		if (data) {
+			goto(`/posts/${data[0].id}`);
+		}
+	};
+
 	const delteContent = (index: number) => {
 		console.log('delteContent', index);
 
@@ -152,131 +178,93 @@ def hoge():
 <div class="container h-full mx-auto flex justify-center py-4">
 	<div class="space-y-10 text-center flex flex-col items-center">
 		<h2 class="h2">Share your thoughts!</h2>
-		<form method="POST" class="break-words w-screen max-w-4xl space-y-6 px-20">
-			<div class="space-y-6">
+		<form method="POST" class="break-words w-screen max-w-7xl space-y-2 px-20">
+			<div class="space-y-2">
 				<input
 					type="text"
 					name="title"
-					placeholder="Title"
-					class="input h2 p-4"
+					placeholder="Your new story"
+					class="input h3 p-2 !variant-glass-tertiary !border-0"
 					bind:value={title}
 				/>
 
 				<input
 					type="text"
-					name="title"
-					placeholder="Title"
-					class="input h3 p-2 !bg-transparent"
+					name="description"
+					placeholder="A breif description"
+					class="input p p-2 !variant-glass-tertiary !border-0"
 					bind:value={description}
 				/>
 
-				<InputChip
-					class="variant-soft-outline border-0"
-					bind:value={list}
-					name="chips"
-					placeholder="Enter any tag..."
-				/>
+				<div
+					class="input !border-0 flex align-middle justify-center items-center px-2 !variant-glass-tertiary"
+				>
+					<Icon icon="octicon:tag-16" />
+
+					<InputChip
+						class="!border-0 !bg-transparent"
+						bind:value={list}
+						name="chips"
+						placeholder="Enter any tag... (max: 5)"
+					/>
+				</div>
+			</div>
+			<div>
+				<RadioGroup>
+					<RadioItem
+						bind:group={viewIndex}
+						name="justify"
+						value={0}
+						class="h-full flex flex-col items-center justify-center"
+					>
+						<div class="flex gap-2 items-center">
+							<Icon icon="octicon:pencil-16" />
+							<span>Editor</span>
+						</div>
+					</RadioItem>
+					<RadioItem
+						bind:group={viewIndex}
+						name="justify"
+						value={1}
+						class="h-full flex flex-col items-center justify-center"
+					>
+						<div class="flex gap-2 justify-center items-center">
+							<Icon icon="octicon:sidebar-collapse-16" />
+							<span>Preview</span>
+						</div>
+					</RadioItem>
+				</RadioGroup>
 			</div>
 
-			<div class="flex flex-col w-full gap-2" use:tocCrawler={{ mode: 'generate' }}>
-				{#each contents as inputBox, i}
-					{#if inputBox.type === 'codeBlock'}
-						<textarea class="textarea text-left" rows="4" placeholder="" bind:value={pyCode} />
+			<div class="flex {viewIndex == 0 ? 'flex-col' : ''}">
+				<textarea
+					bind:value={markdown}
+					class="input !variant-glass-tertiary !border-0 textarea {viewIndex == 0
+						? 'w-full'
+						: 'w-1/2'}"
+					rows="25"
+					placeholder="Enter markdown here"
+				/>
 
-						<!-- <CodeBlock class="w-full text-left" language={inputBox.language} code={pyCode} /> -->
-					{:else if inputBox.type == 'textarea'}
-						<div class="relative">
-							<textarea
-								class="textarea text-left"
-								rows="10"
-								placeholder={inputBox.placeholder}
-								bind:value={inputBox.content}
-							/>
-							<button
-								type="button"
-								class="absolute right-[-3rem] btn-icon btn-icon-xl variant-filled-error h-10 w-10"
-								on:click={() => {
-									delteContent(i);
-								}}
-							>
-								<Icon icon="octicon:trash-16" />
-							</button>
-						</div>
-					{:else}
-						<div class=" flex items-center {inputBox.type} relative">
-							<input
-								type="text"
-								name={inputBox.type}
-								placeholder={inputBox.placeholder}
-								class="input w-full {inputBox.type} !bg-transparent"
-								bind:value={inputBox.content}
-							/>
-
-							<!-- A button to delete the content -->
-							<button
-								type="button"
-								class="absolute right-[-3rem] btn-icon btn-icon-xl variant-filled-error h-10 w-10"
-								on:click={() => {
-									delteContent(i);
-								}}
-							>
-								<Icon icon="octicon:trash-16" />
-							</button>
-						</div>
-					{/if}
-				{/each}
+				<div class="w-1/2">
+					<article
+						class="text-[0.85rem] prose dark:prose-invert prose-code:text-primary-600 {viewIndex ==
+						0
+							? 'hidden'
+							: ''}"
+					>
+						{@html marked.parse(markdown)}
+					</article>
+				</div>
 			</div>
 		</form>
 
-		<div class="flex gap-2">
-			<button class="chip variant-filled" use:popup={inputPopup}>
-				<Icon icon="octicon:feed-plus-16" class="w-4 h-4 " />
-				<span> headers </span>
-			</button>
-
-			<button
-				class="chip variant-filled"
-				on:click={() => {
-					testAdd('p');
-				}}
-			>
-				<Icon icon="octicon:feed-plus-16" class="w-4 h-4 " />
-				<span> paragraph </span>
-			</button>
-
-			<button class="chip variant-filled" use:popup={mediaPopup}>
-				<Icon icon="octicon:feed-plus-16" class="w-4 h-4 " />
-				<span> media </span>
-			</button>
-		</div>
-
 		<button
 			on:click={() => {
-				publish();
+				// publish();
+				publishMarkdown();
 			}}
 			class="btn variant-filled-primary">Pubish</button
 		>
 	</div>
-</div>
-
-<div class="card p-4 w-72 shadow-xl rounded-xl" data-popup="inputPopup">
-	<div class="text-center"><p>Input Content</p></div>
-	{#each inputTypes as type}
-		<button
-			class="chip variant-soft-secondary hover:variant-filled m-1"
-			on:click={() => {
-				testAdd(type);
-			}}
-		>
-			<span>
-				<Icon icon="octicon:feed-plus-16" class="w-4 h-4 " />
-			</span>
-			<span class="italic">{type}</span>
-		</button>
-	{/each}
-	<div class="arrow bg-surface-100-800-token" />
-</div>
-
-<div class="card p-4 w-72 shadow-xl" data-popup="mediaPopup">
-	<div><p>Media Content</p></div>
 </div>

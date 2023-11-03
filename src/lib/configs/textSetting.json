@@ -4,5 +4,7 @@
     "author": "Adrian Tam",
     "year": "2023",
     "title": "OpenBLog",
-    "github": "https://github.com/kayeungadrian-tam/Svelte_Assistance"
+    "github": "https://github.com/kayeungadrian-tam/Svelte_Assistance",
+    "website": "https://www.adrian-tam.com/",
+    "welcomeMsg": "Welcome to the other side of knowledge."
 }
