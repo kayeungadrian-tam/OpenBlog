@@ -82,9 +82,9 @@
 
 			<div data-popup="popupFeatured">
 				<div class="flex flex-col items-center align-middle card p-4 shadow-xl gap-2">
-					<a href="/profiles/{session.user?.id}" class="flex items-center gap-2 px-2 w-full">
-						<Icon icon="octicon:person-16" />
-						<span>Profile</span>
+					<a href="/@{session.user?.id}" class="flex items-center gap-2 px-2 w-full">
+						<Icon icon="octicon:book-16" />
+						<span>My Posts</span>
 					</a>
 
 					<a href="/setting/{session.user?.id}" class="flex items-center gap-2 px-2 w-full">

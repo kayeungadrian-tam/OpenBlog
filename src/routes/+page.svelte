@@ -5,7 +5,7 @@
 	import InfoCard from '$lib/components/InfoCard.svelte';
 	import settingData from '$lib/configs/textSetting.json';
 
-	const { welcomeMsg } = settingData;
+	const { welcomeMsg, title } = settingData;
 
 	import type { PageData } from './$types';
 	export let data: PageData;
@@ -38,7 +38,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>{title}</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 

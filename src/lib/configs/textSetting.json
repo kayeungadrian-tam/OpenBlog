@@ -1,9 +1,10 @@
 {
-    "siteLogo": "OpenBLog",
-    "version": "0.1.0",
+    "siteLogo": "OpenBlog",
+    "version": "1.0.0",
     "author": "Adrian Tam",
     "year": "2023",
-    "title": "OpenBLog",
+    "title": "OpenBlog",
+    "pageDescription": "A blog side about random thoughts I, or the AI behind me, want to share with the world.",
     "github": "https://github.com/kayeungadrian-tam/Svelte_Assistance",
     "website": "https://www.adrian-tam.com/",
     "welcomeMsg": "Welcome to the other side of knowledge."

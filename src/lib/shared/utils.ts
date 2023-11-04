@@ -28,3 +28,12 @@ export function formatDatetimeToHumanReadable(datetimeStr: string, locale: strin
 
     return formattedDatetime;
 }
+
+
+export function trancate(str: string, num: number) {
+    if (str.length > num) {
+        return str.slice(0, num) + '...';
+    } else {
+        return str;
+    }
+}

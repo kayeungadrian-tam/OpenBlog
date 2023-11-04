@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { Avatar } from '@skeletonlabs/skeleton';
+	import { Avatar, CodeBlock } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 
-	import PostContent from '$lib/components/PostContent.svelte';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { formatDatetimeToHumanReadable } from '$lib/shared/utils.js';
@@ -13,13 +12,14 @@
 	export let data;
 
 	const { post, author } = data.data;
-
 	const { display_name, avatar_url } = author.data[0];
-
 	const { published_at, content, view_count, title, tags } = post[0];
 
 	const viewCount = view_count;
 	const score = data.score;
+
+	let likes: number = 0;
+	let dislikes: number = 0;
 
 	function setLocalScore(score: number) {
 		switch (score) {
@@ -34,6 +34,34 @@
 				break;
 		}
 	}
+
+	const setPostViewCount = async (likes: number = 0, dislikes: number = 0) => {
+		const postId = post[0].id;
+
+		let { data: posts_score, error } = await data.supabase
+			.from('posts_score')
+			.select('score')
+			.eq('post_id', postId);
+
+		posts_score?.forEach((post) => {
+			console.log(post.score);
+			switch (post.score) {
+				case 0:
+					dislikes++;
+					break;
+				case 2:
+					likes++;
+					break;
+				default:
+					break;
+			}
+		});
+
+		return {
+			likes: likes,
+			dislikes: dislikes
+		};
+	};
 
 	async function updatePostScore() {
 		const userId = data.session?.user.id;
@@ -58,6 +86,24 @@
 		});
 	}
 
+	const channel = data.supabase
+		.channel('table-db-changes')
+		.on(
+			'postgres_changes',
+			{
+				event: 'UPDATE',
+				schema: 'public',
+				table: 'posts_score'
+			},
+			(payload) => {
+				setPostViewCount().then((res) => {
+					likes = res.likes;
+					dislikes = res.dislikes;
+				});
+			}
+		)
+		.subscribe();
+
 	async function addPostCount() {
 		const userId = data.session?.user.id;
 		const supabase = data.supabase;
@@ -68,13 +114,18 @@
 		console.log('e', e);
 	}
 
+	setPostViewCount().then((res) => {
+		likes = res.likes;
+		dislikes = res.dislikes;
+	});
+
 	onMount(() => {
 		setLocalScore(score);
 		addPostCount();
 		updatePostScore();
 	});
 
-	$: storeExample;
+	// $: storeExample;
 </script>
 
 <div class="container h-full mx-auto flex items-center justify-center">
@@ -85,9 +136,6 @@
 				<div class="chip variant-filled-secondary px-8 h-8">{tag}</div>
 			{/each}
 		</div>
-		<!-- <h3 class="h3"> -->
-		<!-- {description} -->
-		<!-- </h3> -->
 
 		<div class="flex w-full justify-evenly gap-8 align-middle items-stretch">
 			<div class="flex items-center gap-8 justify-start w-full">
@@ -114,32 +162,31 @@
 					};
 				}}
 			>
-				<!-- <input type="hidden" name="post_id" value={data.post.data[0].slug} /> -->
-				<!-- <input type="hidden" name="author_id" value={data.post.data[0].author} /> -->
-
 				<div class="logo-cloud gap-1 flex h-16">
 					<button
 						type="submit"
 						formaction="?/like"
+						disabled={data.session ? false : true}
 						class=" logo-item btn {$storeExample == 'like'
 							? 'btn variant-soft-success'
 							: 'variant-surface-tertiary'}"
 					>
 						<Icon icon="octicon:thumbsup-16" width="20" />
 						<span>Like</span>
-						<span>1.2k</span>
+						<span>{likes}</span>
 					</button>
 
 					<button
 						formaction="?/dislike"
 						type="submit"
+						disabled={data.session ? false : true}
 						class=" logo-item btn {$storeExample == 'dislike'
 							? 'btn variant-soft-error'
 							: 'variant-surface-tertiary'}"
 					>
 						<Icon icon="octicon:thumbsdown-16" width="20" />
 						<span>Dislike</span>
-						<span>1.2k</span>
+						<span>{dislikes}</span>
 					</button>
 
 					<div class="btn variant-surface-tertiary hover:">
