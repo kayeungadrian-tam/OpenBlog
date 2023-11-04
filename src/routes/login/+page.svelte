@@ -17,7 +17,7 @@
 				<span>Sign in with Google</span>
 			</button>
 
-			<button formaction="?/login&provider=google" class="btn variant-outline-tertiary">
+			<button formaction="?/login&provider=slack" class="btn variant-outline-tertiary">
 				<span>
 					<img
 						src="https://img.icons8.com/color/48/000000/slack-new.png"
@@ -28,11 +28,11 @@
 				<span>Sign in with Google</span>
 			</button>
 
-			<button formaction="?/login&provider=google" class="btn variant-outline-tertiary">
+			<button formaction="?/login&provider=github" class="btn variant-outline-tertiary">
 				<span>
 					<img src="https://img.icons8.com/color/48/000000/github.png" class="w-6" alt="google" />
 				</span>
-				<span>Sign in with Google</span>
+				<span>Sign in with Github</span>
 			</button>
 		</div>
 	</form>
