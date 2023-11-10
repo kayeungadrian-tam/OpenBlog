@@ -4,6 +4,21 @@ export const load = async ({ params, locals: { supabase } }) => {
 
     console.log('params', params);
 
+    const getUserProfile = async (userId: string) => {
+
+
+        let { data: profile, error: profileError } = await supabase
+            .from("profiles")
+            .select(
+                "id, display_name, avatar_url"
+            )
+            .eq("id", params.userId);
+
+        console.log('profile', profile);
+    }
+
+
+
 
 
     // console.log('params', params);
@@ -20,7 +35,8 @@ export const load = async ({ params, locals: { supabase } }) => {
 
     return {
         posts: userPosts,
-        userId: params.userId
+        userId: params.userId,
+        profile: await getUserProfile(params.userId)
     }
 
 

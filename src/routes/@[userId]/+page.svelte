@@ -2,6 +2,9 @@
 	import { AppShell } from '@skeletonlabs/skeleton';
 	import PostList from '$lib/components/PostList.svelte';
 	export let data;
+
+	const profile = data.session?.user.user_metadata;
+	const { full_name, email } = profile;
 </script>
 
 <div class=" my-4 flex max-w-6xl align-middle items-center justify-center mx-auto">
@@ -11,11 +14,14 @@
 	>
 		<svelte:fragment slot="sidebarRight">
 			<div class="mb-12 text-center w-full">
-				<h3 class="">{data.userId}</h3>
+				<h3 class="">{full_name}</h3>
 			</div>
 		</svelte:fragment>
 		<svelte:fragment slot="pageHeader">
-			<h1 class="h2 text-center">{data.userId}</h1>
+			<div class="my-6">
+				<h1 class="h2 text-center">{full_name}</h1>
+				<h5 class="h5 text-center">{email}</h5>
+			</div>
 		</svelte:fragment>
 		<section class="container flex flex-col align-middle justify-center items-center">
 			<PostList posts={data.posts} />

@@ -85,7 +85,7 @@
 				<svelte:fragment slot="panel">
 					{#if tabSet === 0}
 						<div class="w-100">
-							{#each posts as { id, discription, title, content, author, published_at, tags, view_count }, i}
+							{#each posts as { id, discription, title, content, author, published_at, tags, view_count, avatar_url }, i}
 								<div class="card my-6 relative">
 									<a href="/posts/{id}">
 										<header class="card-header h3 text-left">{title}</header>
@@ -100,16 +100,12 @@
 										<div class="flex">
 											<div class="flex align-middle items-center gap-4 text-sm italic">
 												<span>
-													<Avatar
-														src="https://lh3.googleusercontent.com/a/ACg8ocLkaCye9ZoiP2MdgYa9TrZmtyiyytpeAHBYpFb4UcgwC5I=s96-c"
-														initials="AB"
-														width="w-10"
-													/>
+													<Avatar src={avatar_url} initials="AB" width="w-10" />
 												</span>
 												<span class="flex flex-col items-start">
 													<a class="hover:text-primary-400" href="/">
 														<span>
-															Adrian Tam
+															{author}
 															<!-- {author.substring(0, 8)} -->
 														</span>
 													</a>
