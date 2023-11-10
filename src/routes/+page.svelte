@@ -103,7 +103,7 @@
 													<Avatar src={avatar_url} initials="AB" width="w-10" />
 												</span>
 												<span class="flex flex-col items-start">
-													<a class="hover:text-primary-400" href="/">
+													<a class="hover:text-primary-400" href="/@{author}">
 														<span>
 															{author}
 															<!-- {author.substring(0, 8)} -->
