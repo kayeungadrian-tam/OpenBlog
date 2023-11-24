@@ -8,7 +8,7 @@
 	}
 </script>
 
-<footer class="flex justify-between items-center m-0 bottom-0 px-16 variant-glass-success pb-4">
+<footer class="flex justify-between items-center m-0 bottom-0 px-16 bg-surface-100-800-token pb-4">
 	<div class="flex flex-col">
 		<h2 class="text-surface-400 font-light italic text-sm">by {author}&copy;{getYear()}</h2>
 

@@ -49,7 +49,7 @@
 	$: y;
 </script>
 
-<AppBar background={y > 100 ? 'variant-glass-secondary' : ''}>
+<AppBar background="bg-surface-100-800-token">
 	<svelte:fragment slot="lead">
 		<a href="/">
 			<strong class="text-xl uppercase">{testSetting.siteLogo}</strong>

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import '../app.postcss';
-	import { browser } from '$app/environment';
 	import { navigating } from '$app/stores';
 
 	import type { ComponentEvents } from 'svelte';
@@ -49,22 +48,11 @@
 <!-- App Shell -->
 <AppShell on:scroll={scrollHandler}>
 	<svelte:fragment slot="pageHeader">
-		<!-- {#if y < 100}
-			<span class="opacity-1 duration-300 ease-in-out animate fade-in">
-				<AppBar session={data.session} />
-			</span>
-		{:else}
-			<span class="opacity-1 bg-primary-600">
-				<AppBar session={data.session} />
-			</span>
-		{/if} -->
-
-		<span class="bg-secondary-600">
+		<span class="">
 			<AppBar {y} session={data.session} />
 		</span>
 	</svelte:fragment>
-	<!-- Page Route Content -->
-	<main class="w-screen">
+	<main class="w-screen bg-surface-50-900-token">
 		<slot />
 	</main>
 
