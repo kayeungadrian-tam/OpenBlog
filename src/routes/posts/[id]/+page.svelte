@@ -119,10 +119,26 @@
 		dislikes = res.dislikes;
 	});
 
+	const _cleanTitleString = (postTitle: string) => {
+		let transformedTitle = postTitle.toLowerCase();
+
+		transformedTitle = transformedTitle.replace(/[^\w\s]/g, '');
+		transformedTitle = transformedTitle.replace(/\s+/g, '-');
+
+		return transformedTitle;
+	};
+
+	const setUrlName = (value: string) => {
+		const url = new URL(window.location.toString());
+		url.pathname = `/post/${_cleanTitleString(value)}`;
+		history.replaceState(history.state, '', url);
+	};
+
 	onMount(() => {
 		setLocalScore(score);
 		addPostCount();
 		updatePostScore();
+		setUrlName(title);
 	});
 
 	// $: storeExample;

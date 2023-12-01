@@ -13,6 +13,7 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
 
     const getPosts = async (id: string) => {
         const { data: postData, error } = await supabase.from("blog_posts").select().eq("id", id)
+
         if (postData) {
             const author_data = await supabase.from("profiles").select().eq("id", postData[0].author)
             return { post: postData, author: author_data }
@@ -26,11 +27,20 @@ export const load = async ({ params, fetch, locals: { getSession, supabase } }) 
             return 1;
         }
 
+        // let { data, error } = await supabase
+        //     .from("posts_score")
+        //     .select("score")
+        //     .eq("post_id", params.id)
+        //     .eq("user_id", userId)
+
         let { data, error } = await supabase
             .from("posts_score")
             .select("score")
-            .eq("post_id", params.id)
+            .eq("post_name", params.id)
             .eq("user_id", userId)
+
+        console.log('>>> data', data);
+
 
         if (data?.length > 0) {
             return data[0].score;

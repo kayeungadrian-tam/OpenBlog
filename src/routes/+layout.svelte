@@ -15,7 +15,9 @@
 	import { onMount } from 'svelte';
 	import { invalidateAll } from '$app/navigation';
 	import LoadingBar from '$lib/components/LoadingBar.svelte';
+
 	export let data;
+	let rotatingCube;
 
 	let { supabase, session } = data;
 	$: ({ supabase, session } = data);
@@ -52,7 +54,7 @@
 			<AppBar {y} session={data.session} />
 		</span>
 	</svelte:fragment>
-	<main class="w-screen bg-surface-50-900-token">
+	<main class="w-screen bg-surface-50-900-token min-h-[calc(100vh-120px)]">
 		<slot />
 	</main>
 
