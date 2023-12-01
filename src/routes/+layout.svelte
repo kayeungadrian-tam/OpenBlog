@@ -9,7 +9,6 @@
 
 	import { AppShell, initializeStores } from '@skeletonlabs/skeleton';
 	import AppBar from '$lib/components/AppBar.svelte';
-	import { LightSwitch } from '@skeletonlabs/skeleton';
 
 	import { Modal, getModalStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';

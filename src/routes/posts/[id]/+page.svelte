@@ -137,6 +137,7 @@
 	onMount(() => {
 		setLocalScore(score);
 		addPostCount();
+
 		updatePostScore();
 		setUrlName(title);
 	});
